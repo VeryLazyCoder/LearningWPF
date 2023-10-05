@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LearningWPF", "LearningWPF\LearningWPF.csproj", "{0C254538-4081-4ED4-B827-4D41B9AFC076}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LearningWPF", "LearningWPF\LearningWPF.csproj", "{0C254538-4081-4ED4-B827-4D41B9AFC076}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brodilka", "Brodilka\Brodilka.csproj", "{06892AD5-F845-42D0-8FFE-95609D71B06D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{0C254538-4081-4ED4-B827-4D41B9AFC076}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C254538-4081-4ED4-B827-4D41B9AFC076}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C254538-4081-4ED4-B827-4D41B9AFC076}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06892AD5-F845-42D0-8FFE-95609D71B06D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06892AD5-F845-42D0-8FFE-95609D71B06D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06892AD5-F845-42D0-8FFE-95609D71B06D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06892AD5-F845-42D0-8FFE-95609D71B06D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
