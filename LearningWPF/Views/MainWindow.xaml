@@ -6,7 +6,7 @@
         xmlns:vm="clr-namespace:LearningWPF.ViewModels"
         xmlns:local="clr-namespace:LearningWPF"
         mc:Ignorable="d"
-        Title="First WPF app" Height="750" Width="1000">
+        Title="First WPF app" Height="750" Width="1200">
     <Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>
@@ -14,36 +14,34 @@
         <local:MapIdConverter x:Key="MapIdConverter" />
     </Window.Resources>
     <Window.InputBindings>
-        <KeyBinding Key="Esc" Command="{Binding CloseApplicationCommand}"/>
+        <KeyBinding  Key="Esc" Command="{Binding CloseApplicationCommand}"/>
     </Window.InputBindings>
     <Grid Background="DarkSeaGreen">
     <!--<Grid Background="{Binding Color}">-->
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="250*" />
-            <ColumnDefinition Width="250*" />
-            <ColumnDefinition Width="250*" />
+            <ColumnDefinition Width="280*" />
+            <ColumnDefinition Width="280*" />
+            <ColumnDefinition Width="280*" />
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="600*" />
+            <RowDefinition Height="500*" />
             <RowDefinition Height="200*" />
             <RowDefinition Height="200*" />
         </Grid.RowDefinitions>
         <!--<RadioButton Content="Карта 1" Command="{Binding ShowRecordsWithoutConverter}" CommandParameter="1"
                      Grid.Row="1" Grid.Column="0" FontSize="72"/>-->
-        <RadioButton Content="Карта 1" IsChecked="{Binding SelectedMapId, 
-            Converter={StaticResource MapIdConverter}, ConverterParameter=1}"
-             Grid.Row="1" Grid.Column="0" FontSize="72"/>
-        <RadioButton Content="Карта 2" IsChecked="{Binding SelectedMapId, 
-            Converter={StaticResource MapIdConverter}, ConverterParameter=2}" 
-                     Grid.Row="1" Grid.Column="1" FontSize="72" />
-        <RadioButton Content="Карта 3" IsChecked="{Binding SelectedMapId, 
-            Converter={StaticResource MapIdConverter}, ConverterParameter=3}" 
-                     Grid.Row="1" Grid.Column="2" FontSize="72" />
-        <Button Content="Показать рекорды" Command="{Binding ShowRecordsCommand}" Grid.Row="1" 
+        <RadioButton Content="Карта 1" Command="{Binding ShowRecordsWithoutConverter}" CommandParameter="1"
+             Grid.Row="1" Grid.Column="0" FontSize="72" ClickMode="Hover"/>
+        <RadioButton Content="Карта 2" Command="{Binding ShowRecordsWithoutConverter}" CommandParameter="2" 
+                     Grid.Row="1" Grid.Column="1" FontSize="72" ClickMode="Hover"/>
+        <RadioButton Content="Карта 3" Command="{Binding ShowRecordsWithoutConverter}" CommandParameter="3" 
+                     Grid.Row="1" Grid.Column="2" FontSize="72" ClickMode="Hover"/>
+        <Button Content="Назад"  Grid.Row="1" 
                 Grid.ColumnSpan="3" Height="137" Margin="333,147,333,0" Grid.RowSpan="2" 
                 FontSize="22" Background="#FF5EBB21" BorderBrush="#FF29295A" 
-                Foreground="Black" FontStyle="Italic" FontWeight="Bold" FontStretch="Condensed" />
+                Foreground="Black" FontStyle="Italic" FontWeight="Bold" FontStretch="Condensed" 
+                Command="{Binding SwitchWindowCommand}"/>
         <TextBlock Text="{Binding Title}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" 
                    FontSize="22" TextAlignment="Center"/>
     </Grid>

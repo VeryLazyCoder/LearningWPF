@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using LearningWPF.Models;
 using LearningWPF.ViewModels.ViewModelBase;
+using LearningWPF.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,40 +41,37 @@ namespace LearningWPF.ViewModels
             set => Set(ref _title, value);
         }
 
-        private int _mapID;
-        
-
-        public int SelectedMapId
-        {
-            get => _mapID;
-            set => Set(ref _mapID, value);
-        }
-
         public ICommand ShowRecordsCommand { get; private set; }
         public ICommand CloseApplicationCommand { get; private set; }
         public ICommand ShowRecordsWithoutConverter { get; private set; }
+        public ICommand SwitchWindowCommand { get; set; }
 
-        public MainWindowViewModel()
+        
+
+        private void SwitchWindow()
         {
-            ShowRecordsCommand = new RelayCommand(async () => await ShowRecordsAsync());
+            var secondWindow = new MenuWindowxaml();
+            var viewModel = new MenuWindowViewModel();
+            secondWindow.DataContext = viewModel;
+            secondWindow.Show();
+
+            foreach (Window window in Application.Current.Windows)
+                if (window.DataContext != viewModel)
+                    window.Close();
+        }
+
+        public MenuWindowViewModel MenuViewModel { get; set; }
+        public MainWindowViewModel() 
+        {
             CloseApplicationCommand = new RelayCommand(Application.Current.Shutdown);
             ShowRecordsWithoutConverter = new RelayCommand<string>(async (a) => await ShowRecordsAsync(int.Parse(a)));
+            SwitchWindowCommand = new RelayCommand(SwitchWindow);
             #region Timer
             _timer = new DispatcherTimer();
             _timer.Interval = TimeSpan.FromSeconds(0.5);
             _timer.Tick += (a, b) => Color = _brushes[new Random().Next(0, _brushes.Count)];
             _timer.Start(); 
             #endregion
-        }
-
-        private async Task ShowRecordsAsync()
-        {
-            Title = "Подождите, рекорды загружаются...";
-
-            var records = await Task.Run(() => RecordsRepository.LoadRecords(_mapID));
-
-            string message = string.Join(Environment.NewLine, records.Select(x => x.ToString()));
-            Title = message;
         }
 
         private async Task ShowRecordsAsync(int mapID)
