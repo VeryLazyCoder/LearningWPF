@@ -1,4 +1,4 @@
-﻿<Window x:Class="LearningWPF.MainWindow"
+﻿<Window x:Class="LearningWPF.RecordsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,15 +6,15 @@
         xmlns:vm="clr-namespace:LearningWPF.ViewModels"
         xmlns:local="clr-namespace:LearningWPF"
         mc:Ignorable="d"
-        Title="First WPF app" Height="750" Width="1200">
+        Title="First WPF app" Height="750" Width="1200" WindowState="Maximized">
     <Window.DataContext>
-        <vm:MainWindowViewModel/>
+        <vm:RecordsWindowViewModel/>
     </Window.DataContext>
     <Window.Resources>
         <local:MapIdConverter x:Key="MapIdConverter" />
     </Window.Resources>
     <Window.InputBindings>
-        <KeyBinding  Key="Esc" Command="{Binding CloseApplicationCommand}"/>
+        <KeyBinding  Key="Esc" Command="{StaticResource CloseCommand}"/>
     </Window.InputBindings>
     <Grid Background="DarkSeaGreen">
     <!--<Grid Background="{Binding Color}">-->
@@ -29,8 +29,6 @@
             <RowDefinition Height="200*" />
             <RowDefinition Height="200*" />
         </Grid.RowDefinitions>
-        <!--<RadioButton Content="Карта 1" Command="{Binding ShowRecordsWithoutConverter}" CommandParameter="1"
-                     Grid.Row="1" Grid.Column="0" FontSize="72"/>-->
         <RadioButton Content="Карта 1" Command="{Binding ShowRecordsWithoutConverter}" CommandParameter="1"
              Grid.Row="1" Grid.Column="0" FontSize="72" ClickMode="Hover"/>
         <RadioButton Content="Карта 2" Command="{Binding ShowRecordsWithoutConverter}" CommandParameter="2" 

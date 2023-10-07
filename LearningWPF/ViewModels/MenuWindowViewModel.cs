@@ -21,16 +21,18 @@ namespace LearningWPF.ViewModels
         }
 
         public ICommand SwitchWindowCommand { get; set; }
+        public ICommand ShowMessageCommand { get; set; }
 
         public MenuWindowViewModel()
         {
             SwitchWindowCommand = new RelayCommand(SwitchWindow);
+            ShowMessageCommand = new RelayCommand(() => MessageBox.Show("Это функция пока недоступна"));
         }
 
         private void SwitchWindow()
         {
-            var secondWindow = new MainWindow();
-            var viewModel = new MainWindowViewModel();
+            var secondWindow = new RecordsWindow();
+            var viewModel = new RecordsWindowViewModel();
             secondWindow.DataContext = viewModel;
             Application.Current.MainWindow.Close();
             secondWindow.Show();

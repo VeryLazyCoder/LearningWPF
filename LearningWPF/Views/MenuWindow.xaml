@@ -6,12 +6,30 @@
         xmlns:vm="clr-namespace:LearningWPF.ViewModels"
         xmlns:local="clr-namespace:LearningWPF.Views"
         mc:Ignorable="d"
-        Title="MenuWindowxaml" Height="450" Width="800">
+        Title="MenuWindowxaml" Height="450" Width="800"
+        WindowState="Maximized">
     <Window.DataContext>
         <vm:MenuWindowViewModel/>
     </Window.DataContext>
+    <Window.InputBindings>
+        <KeyBinding Key="Esc" Command="{StaticResource CloseCommand}"/>
+    </Window.InputBindings>
     <Grid>
-        <Button Content="{Binding Text}" VerticalAlignment="Center" HorizontalAlignment="Center" Background="Red"
-                Command="{Binding SwitchWindowCommand}"/>
+        <Grid.Background>
+            <ImageBrush ImageSource="/Views/фон2.bmp"/>
+        </Grid.Background>
+        <Viewbox Stretch="Uniform">
+            <Button Content="{Binding Text}"  Background="Green"
+                Command="{Binding SwitchWindowCommand}" Margin="628,284,48,30" Height="118" Width="258"
+                    FontSize="24"/>
+        </Viewbox>
+        <Viewbox Stretch="Uniform">
+            <Button Content="Играть" Background="Aquamarine" Margin="242,52,242,237" Height="167" Width="424"
+                    Command="{Binding ShowMessageCommand}" FontSize="24" Padding="1,1,4,1"/>
+        </Viewbox>
+        <Viewbox Stretch="Uniform">
+            <Button Content="Узнать как играть" Background="ForestGreen" Margin="19,276,564,59"
+                FontSize="24" Height="98" Width="206" Command="{Binding ShowMessageCommand}"/>
+        </Viewbox>
     </Grid>
 </Window>

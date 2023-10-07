@@ -13,7 +13,7 @@ using System.Windows.Threading;
 
 namespace LearningWPF.ViewModels
 {
-    internal class MainWindowViewModel : ViewModel
+    internal class RecordsWindowViewModel : ViewModel
     {
         #region Window Colors
         DispatcherTimer _timer;
@@ -41,8 +41,6 @@ namespace LearningWPF.ViewModels
             set => Set(ref _title, value);
         }
 
-        public ICommand ShowRecordsCommand { get; private set; }
-        public ICommand CloseApplicationCommand { get; private set; }
         public ICommand ShowRecordsWithoutConverter { get; private set; }
         public ICommand SwitchWindowCommand { get; set; }
 
@@ -54,16 +52,14 @@ namespace LearningWPF.ViewModels
             var viewModel = new MenuWindowViewModel();
             secondWindow.DataContext = viewModel;
             secondWindow.Show();
-
             foreach (Window window in Application.Current.Windows)
                 if (window.DataContext != viewModel)
                     window.Close();
         }
 
         public MenuWindowViewModel MenuViewModel { get; set; }
-        public MainWindowViewModel() 
+        public RecordsWindowViewModel() 
         {
-            CloseApplicationCommand = new RelayCommand(Application.Current.Shutdown);
             ShowRecordsWithoutConverter = new RelayCommand<string>(async (a) => await ShowRecordsAsync(int.Parse(a)));
             SwitchWindowCommand = new RelayCommand(SwitchWindow);
             #region Timer
