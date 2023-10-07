@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Views\фон2.bmp" />
+    <Resource Include="Images\фон2.bmp" />
   </ItemGroup>
 
 </Project>
