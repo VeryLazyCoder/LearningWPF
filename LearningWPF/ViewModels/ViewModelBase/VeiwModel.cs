@@ -10,7 +10,7 @@ using System.Windows.Data;
 
 namespace LearningWPF.ViewModels.ViewModelBase
 {
-    internal abstract class ViewModel : INotifyPropertyChanged
+    public abstract class ViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

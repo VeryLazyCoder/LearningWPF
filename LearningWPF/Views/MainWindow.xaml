@@ -13,6 +13,10 @@
     <Window.Resources>
         <local:MapIdConverter x:Key="MapIdConverter" />
     </Window.Resources>
+    <Window.InputBindings>
+        <KeyBinding Key="Esc" Command="{StaticResource CloseCommand}"/>
+    </Window.InputBindings>
+    
     <Grid Background="DarkSeaGreen">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="250*" />

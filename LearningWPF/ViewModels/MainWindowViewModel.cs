@@ -1,19 +1,15 @@
-﻿using LearningWPF.ViewModels.ViewModelBase;
+﻿using GalaSoft.MvvmLight.Command;
 using LearningWPF.Models;
+using LearningWPF.ViewModels.ViewModelBase;
 using System;
-using System.ComponentModel;
-using System.Globalization;
-using System.Windows.Data;
-using System.Windows.Input;
-using System.Collections.ObjectModel;
-using GalaSoft.MvvmLight.Command;
-using System.Windows;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
 
 namespace LearningWPF.ViewModels
 {
-    internal class MainWindowViewModel : ViewModel
+    public class MainWindowViewModel : ViewModel
     {
         private string _title = "Нажмите кнопку и здесь будут рекорды";
 
@@ -35,10 +31,12 @@ namespace LearningWPF.ViewModels
         }
 
         public ICommand ShowRecordsCommand { get; private set; }
+        public ICommand CloseApplicationCommand {  get; set; }
 
         public MainWindowViewModel()
         {
             ShowRecordsCommand = new RelayCommand(async () => await ShowRecordsAsync());
+            CloseApplicationCommand = new RelayCommand( () => Application.Current.Shutdown());
         }
 
         private async Task ShowRecordsAsync()
