@@ -2,12 +2,11 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:LearningWPF"
-             xmlns:vm="clr-namespace:LearningWPF.Infrustructure"
-             StartupUri="Views/MainWindow.xaml">
-
+             xmlns:commands="clr-namespace:LearningWPF.Infrastructure"
+             StartupUri="Views/MenuWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
-            <vm:CloseCommand x:Key="CloseCommand"/>
+            <commands:CloseApplicationCommand x:Key="CloseCommand"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

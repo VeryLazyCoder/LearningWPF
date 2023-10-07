@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LearningWPF.Models
 {
@@ -14,6 +11,7 @@ namespace LearningWPF.Models
         private static List<UserData> _userRecords = new();
         private static string connectionString =
             @"Server=ByashaLaptop\SQLEXPRESS, 49172;Database=Reckords;User Id=TEST2;Password=qwerty12345;";
+
         public static List<UserData> LoadRecords(int mapID)
         {
             _mapID = mapID;
@@ -38,8 +36,6 @@ namespace LearningWPF.Models
             _maxID = (int)(command.ExecuteScalar() ?? 1);
             return _userRecords;
         }
-
-        
     }
 
     public struct UserData
