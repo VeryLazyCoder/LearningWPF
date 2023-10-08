@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
 using LearningWPF.ViewModels.ViewModelBase;
+using LearningWPF.Views;
 
 namespace LearningWPF.ViewModels
 {
@@ -20,19 +21,30 @@ namespace LearningWPF.ViewModels
             set => Set(ref _text, value);
         }
 
-        public ICommand SwitchWindowCommand { get; set; }
+        public ICommand SetRecordsWindowCommand { get; set; }
+        public ICommand SetGameWindowCommand { get; set; }
         public ICommand ShowMessageCommand { get; set; }
 
         public MenuWindowViewModel()
         {
-            SwitchWindowCommand = new RelayCommand(SwitchWindow);
+            SetRecordsWindowCommand = new RelayCommand(SwitchRecordsWindow);
             ShowMessageCommand = new RelayCommand(() => MessageBox.Show("Это функция пока недоступна"));
+            SetGameWindowCommand = new RelayCommand(SwitchGameWindow);
         }
 
-        private void SwitchWindow()
+        private void SwitchRecordsWindow()
         {
             var secondWindow = new RecordsWindow();
             var viewModel = new RecordsWindowViewModel();
+            secondWindow.DataContext = viewModel;
+            Application.Current.MainWindow.Close();
+            secondWindow.Show();
+        }
+
+        private void SwitchGameWindow()
+        {
+            var secondWindow = new GameWindow();
+            var viewModel = new GameWindowViewModel();
             secondWindow.DataContext = viewModel;
             Application.Current.MainWindow.Close();
             secondWindow.Show();
