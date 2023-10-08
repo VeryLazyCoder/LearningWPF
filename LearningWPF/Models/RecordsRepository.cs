@@ -18,7 +18,7 @@ namespace LearningWPF.Models
             using SqlConnection connection = new(connectionString);
             connection.Open();
 
-            var sqlQuery = $"SELECT TOP 10 * FROM Reckord where maptype = {mapID} ORDER BY Score ASC";
+            var sqlQuery = @$"SELECT TOP 10 * FROM Reckord where maptype = {mapID} ORDER BY Score ASC";
             using SqlCommand command = new(sqlQuery, connection);
             using SqlDataReader reader = command.ExecuteReader();
 

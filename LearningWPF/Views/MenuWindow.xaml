@@ -20,7 +20,7 @@
         </Grid.Background>
         <Viewbox Stretch="Uniform">
             <Button Content="{Binding Text}"  Background="Green"
-                Command="{Binding SwitchWindowCommand}" Margin="628,284,48,30" Height="118" Width="258"
+                Command="{Binding SetRecordsWindowCommand}" Margin="628,284,48,30" Height="118" Width="258"
                     FontSize="24"/>
         </Viewbox>
         <Viewbox Stretch="Uniform">

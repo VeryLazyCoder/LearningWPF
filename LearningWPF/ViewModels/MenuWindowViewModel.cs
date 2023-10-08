@@ -21,32 +21,26 @@ namespace LearningWPF.ViewModels
             set => Set(ref _text, value);
         }
 
-        public ICommand SetRecordsWindowCommand { get; set; }
-        public ICommand SetGameWindowCommand { get; set; }
-        public ICommand ShowMessageCommand { get; set; }
+        public ICommand SetRecordsWindowCommand { get; set; } = new RelayCommand(SwitchRecordsWindow);
+        public ICommand SetGameWindowCommand { get; set; } = new RelayCommand(SwitchGameWindow);
+        public ICommand ShowMessageCommand { get; set; } =
+            new RelayCommand(() => MessageBox.Show("Это функция пока недоступна"));
 
-        public MenuWindowViewModel()
-        {
-            SetRecordsWindowCommand = new RelayCommand(SwitchRecordsWindow);
-            ShowMessageCommand = new RelayCommand(() => MessageBox.Show("Это функция пока недоступна"));
-            SetGameWindowCommand = new RelayCommand(SwitchGameWindow);
-        }
-
-        private void SwitchRecordsWindow()
+        private static void SwitchRecordsWindow()
         {
             var secondWindow = new RecordsWindow();
             var viewModel = new RecordsWindowViewModel();
             secondWindow.DataContext = viewModel;
-            Application.Current.MainWindow.Close();
+            Application.Current.MainWindow?.Close();
             secondWindow.Show();
         }
 
-        private void SwitchGameWindow()
+        private static void SwitchGameWindow()
         {
             var secondWindow = new GameWindow();
             var viewModel = new GameWindowViewModel();
             secondWindow.DataContext = viewModel;
-            Application.Current.MainWindow.Close();
+            Application.Current.MainWindow?.Close();
             secondWindow.Show();
         }
     }

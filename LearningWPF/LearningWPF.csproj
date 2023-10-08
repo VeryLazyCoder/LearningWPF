@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\cool.bmp" />
     <None Remove="Views\фон2.bmp" />
   </ItemGroup>
 
@@ -17,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\cool.bmp" />
     <Resource Include="Images\фон2.bmp" />
   </ItemGroup>
 
