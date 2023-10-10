@@ -24,7 +24,7 @@ namespace LearningWPF.ViewModels
             {'W','W','W','W','W',},
         };
         private int _columnsCount;
-        private Point _playersCoordinates = new (2, 1);
+        private static Point _playersCoordinates = new (2, 1);
 
         public int ColumnsCount
         {
@@ -36,13 +36,17 @@ namespace LearningWPF.ViewModels
 
         private static void OnKeyDown(string key)
         {
-            if (key == "Space")
-            {
-                _map[2, 1] = ' ';
-                ImageList.Clear();
-                FillImageList();
-                
-            }
+            var offset = getOffsetPoint(key);
+
+            _map[(int)_playersCoordinates.X, (int)_playersCoordinates.Y] = ' ';
+
+            var nextPosition = new Point(offset.X + _playersCoordinates.X, offset.Y + _playersCoordinates.Y);
+
+            _playersCoordinates = nextPosition;
+            _map[(int)_playersCoordinates.X, (int)_playersCoordinates.Y] = 'P';
+
+            ImageList.Clear();
+            FillImageList();
         }
 
         public GameWindowViewModel()
@@ -65,6 +69,15 @@ namespace LearningWPF.ViewModels
             'X' => new BitmapImage(new Uri("/Images/chest.bmp", UriKind.Relative)),
             'W' => new BitmapImage(new Uri("/Images/wall.bmp", UriKind.Relative)),
             _ => new BitmapImage(new Uri("/Images/Grass.bmp", UriKind.Relative)),
+        };
+
+        private static Point getOffsetPoint(string pressedKeyLiteral) => pressedKeyLiteral switch
+        {
+            "W" => new Point(-1, 0),
+            "S" => new Point(1, 0),
+            "A" => new Point(0, -1),
+            "D" => new Point(0, 1),
+            _ => new Point(0, 0),
         };
     }
 }

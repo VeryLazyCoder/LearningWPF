@@ -13,7 +13,10 @@
     </Window.DataContext>
     <Window.InputBindings>
         <KeyBinding Key="Escape" Command="{StaticResource CloseCommand}"></KeyBinding>
-        <KeyBinding Key="Space" Command="{Binding KeyCommand}" CommandParameter="Space"></KeyBinding>
+        <KeyBinding Key="W" Command="{Binding KeyCommand}" CommandParameter="W"></KeyBinding>
+        <KeyBinding Key="S" Command="{Binding KeyCommand}" CommandParameter="S"></KeyBinding>
+        <KeyBinding Key="A" Command="{Binding KeyCommand}" CommandParameter="A"></KeyBinding>
+        <KeyBinding Key="D" Command="{Binding KeyCommand}" CommandParameter="D"></KeyBinding>
     </Window.InputBindings>
     <Grid>
         <Grid.RowDefinitions>
