@@ -13,6 +13,9 @@
     <None Remove="Images\Peasant.bmp" />
     <None Remove="Images\wall.bmp" />
     <None Remove="Images\фон2.bmp" />
+    <None Remove="Maps\large map.txt" />
+    <None Remove="Maps\middle map.txt" />
+    <None Remove="Maps\small map.txt" />
     <None Remove="Views\фон2.bmp" />
   </ItemGroup>
 
@@ -30,6 +33,11 @@
     <Resource Include="Images\Peasant.bmp" />
     <Resource Include="Images\wall.bmp" />
     <Resource Include="Images\фон2.bmp" />
+    <Resource Include="Maps\large map.txt" />
+    <EmbeddedResource Include="Maps\small map.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <Resource Include="Maps\middle map.txt" />
   </ItemGroup>
 
 </Project>
