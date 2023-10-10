@@ -60,7 +60,8 @@ namespace LearningWPF.ViewModels
         public MenuWindowViewModel MenuViewModel { get; set; }
         public RecordsWindowViewModel() 
         {
-            ShowRecordsWithoutConverter = new RelayCommand<string>(async (a) => await ShowRecordsAsync(int.Parse(a)));
+            ShowRecordsWithoutConverter =
+                new RelayCommand<string>(async (a) => await ShowRecordsAsync(int.Parse(a)));
             SwitchWindowCommand = new RelayCommand(SwitchWindow);
             #region Timer
             _timer = new DispatcherTimer();

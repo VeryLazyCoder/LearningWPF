@@ -7,12 +7,13 @@
         xmlns:local="clr-namespace:LearningWPF.Views"
         xmlns:l="clr-namespace:LearningWPF"
         mc:Ignorable="d"
-        Title="GameWindow" Height="450" Width="800" >
+        Title="GameWindow" Height="800" Width="800" >
     <Window.DataContext>
         <vm:GameWindowViewModel/>
     </Window.DataContext>
     <Window.InputBindings>
         <KeyBinding Key="Escape" Command="{StaticResource CloseCommand}"></KeyBinding>
+        <KeyBinding Key="Space" Command="{Binding KeyCommand}" CommandParameter="Space"></KeyBinding>
     </Window.InputBindings>
     <Grid>
         <Grid.RowDefinitions>
@@ -22,7 +23,7 @@
         <ItemsControl ItemsSource="{Binding ImageList}" Grid.Row="0">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <UniformGrid Columns="3" Margin="0" />
+                    <UniformGrid Columns="{Binding ColumnsCount}" Margin="0" />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>

@@ -8,8 +8,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Images\cool.bmp" />
+    <None Remove="Images\chest.bmp" />
+    <None Remove="Images\Grass.bmp" />
+    <None Remove="Images\Peasant.bmp" />
+    <None Remove="Images\wall.bmp" />
+    <None Remove="Images\фон2.bmp" />
     <None Remove="Views\фон2.bmp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\chest.bmp" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,7 +26,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Images\cool.bmp" />
+    <Resource Include="Images\Grass.bmp" />
+    <Resource Include="Images\Peasant.bmp" />
+    <Resource Include="Images\wall.bmp" />
     <Resource Include="Images\фон2.bmp" />
   </ItemGroup>
 

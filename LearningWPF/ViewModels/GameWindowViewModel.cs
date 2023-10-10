@@ -1,46 +1,71 @@
-﻿using System;
-using LearningWPF.ViewModels.ViewModelBase;
+﻿using LearningWPF.ViewModels.ViewModelBase;
+using System;
 using System.Collections.ObjectModel;
-using System.Windows.Media;
+using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
+using GalaSoft.MvvmLight.Command;
+using LearningWPF.Infrastructure;
 
 namespace LearningWPF.ViewModels
 {
     internal class GameWindowViewModel : ViewModel
     {
-        private readonly Color[,] _colorArray;
-        private readonly BitmapImage[,] _imageSource;
+        public static ObservableCollection<BitmapImage> ImageList { get; private set; }
 
-        public GameWindowViewModel()
+        private static readonly char[,] _map =
         {
-            _colorArray = new[,]
-            {
-                { Colors.Red, Colors.Green, Colors.Blue },
-                { Colors.Yellow, Colors.Orange, Colors.Purple },
-                { Colors.Gray, Colors.Brown, Colors.Pink }
-            };
+            {'W','W','W','W','W',},
+            {'W',' ','X',' ','W',},
+            {'W','P',' ',' ','W',},
+            {'W',' ',' ',' ','W',},
+            {'W',' ',' ',' ','W',},
+            {'W','W','W','W','W',},
+        };
+        private int _columnsCount;
+        private Point _playersCoordinates = new (2, 1);
 
-            _imageSource = new[,]
-            {
-                { new BitmapImage(new Uri("/Images/фон2.bmp", UriKind.RelativeOrAbsolute)), new BitmapImage(new Uri("/Images/фон2.bmp", UriKind.RelativeOrAbsolute)),new BitmapImage(new Uri("/Images/фон2.bmp", UriKind.RelativeOrAbsolute)),},
-                { new BitmapImage(new Uri("/Images/cool.bmp", UriKind.RelativeOrAbsolute)), new BitmapImage(new Uri("/Images/фон2.bmp", UriKind.RelativeOrAbsolute)),new BitmapImage(new Uri("/Images/фон2.bmp", UriKind.RelativeOrAbsolute)),},
-                { new BitmapImage(new Uri("/Images/фон2.bmp", UriKind.RelativeOrAbsolute)), new BitmapImage(new Uri("/Images/фон2.bmp", UriKind.RelativeOrAbsolute)),new BitmapImage(new Uri("/Images/фон2.bmp", UriKind.RelativeOrAbsolute)),},
-            };
+        public int ColumnsCount
+        {
+            get => _columnsCount;
+            set => Set(ref _columnsCount, value);
+        }
 
-            ColorList = new ObservableCollection<Color>();
-            ImageList = new ObservableCollection<BitmapImage>();
-            for (var row = 0; row < _colorArray.GetLength(0); row++)
+        public ICommand KeyCommand { get; private set; } = new RelayCommand<string>(OnKeyDown);
+
+        private static void OnKeyDown(string key)
+        {
+            if (key == "Space")
             {
-                for (var col = 0; col < _colorArray.GetLength(1); col++)
-                {
-                    ColorList.Add(_colorArray[row, col]);
-                    ImageList.Add(_imageSource[row, col]);
-                }
+                _map[2, 1] = ' ';
+                ImageList.Clear();
+                FillImageList();
+                
             }
         }
 
-        public ObservableCollection<Color> ColorList { get; }
-        public ObservableCollection<BitmapImage> ImageList { get; }
+        public GameWindowViewModel()
+        {
+            ColumnsCount = _map.GetLength(1);
+            ImageList = new ObservableCollection<BitmapImage>();
+            FillImageList();
+        }
+
+        private static void FillImageList()
+        {
+            for (var row = 0; row < _map.GetLength(0); row++)
+                for (var col = 0; col < _map.GetLength(1); col++)
+                    ImageList.Add(GetBitmap(_map[row, col]));
+        }
+
+        private static BitmapImage GetBitmap(char symbol) => symbol switch
+        {
+            'P' => new BitmapImage(new Uri("/Images/Peasant.bmp", UriKind.Relative)),
+            'X' => new BitmapImage(new Uri("/Images/chest.bmp", UriKind.Relative)),
+            'W' => new BitmapImage(new Uri("/Images/wall.bmp", UriKind.Relative)),
+            _ => new BitmapImage(new Uri("/Images/Grass.bmp", UriKind.Relative)),
+        };
     }
 }
 
