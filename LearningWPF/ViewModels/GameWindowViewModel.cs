@@ -27,7 +27,7 @@ namespace LearningWPF.ViewModels
         public GameWindowViewModel()
         {
             Map = GameMap.CreateMap(1).Map;
-            ColumnsCount = Map.GetLength(0);
+            ColumnsCount = Map.GetLength(1);
             ImageList = new ObservableCollection<BitmapImage>();
             FillImageList();
         }
@@ -37,8 +37,8 @@ namespace LearningWPF.ViewModels
             var offset = GetOffsetPoint(key);
             var nextPosition = _playersCoordinates + offset;
 
-            Map[_playersCoordinates.Y, _playersCoordinates.X] = ' ';
-            Map[nextPosition.Y, nextPosition.X] = 'P';
+            Map[_playersCoordinates.X, _playersCoordinates.Y] = ' ';
+            Map[nextPosition.X, nextPosition.Y] = 'P';
 
 
             _playersCoordinates = nextPosition;
@@ -49,9 +49,9 @@ namespace LearningWPF.ViewModels
 
         private static void FillImageList()
         {
-            for (var row = 0; row < Map.GetLength(1); row++)
-                for (var col = 0; col < Map.GetLength(0); col++)
-                    ImageList.Add(GetBitmap(Map[col, row]));
+            for (var row = 0; row < Map.GetLength(0); row++)
+                for (var col = 0; col < Map.GetLength(1); col++)
+                    ImageList.Add(GetBitmap(Map[row, col]));
         }
 
         private static BitmapImage GetBitmap(char symbol) => symbol switch

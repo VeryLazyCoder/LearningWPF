@@ -30,10 +30,10 @@ namespace LearningWPF.Models
             _random = new Random();
             MovesAvailable = movesAvailable;
             var file = File.ReadAllLines(pathToMap);
-            var map = new char[file[0].Length, file.Length];
+            var map = new char[file.Length, file[0].Length];
             for (var x = 0; x < map.GetLength(0); x++)
                 for (var y = 0; y < map.GetLength(1); y++)
-                    map[x, y] = file[y][x];
+                    map[x, y] = file[x][y];
             Map = map;
 
             DrawSymbolOnEmptyCell('A');
