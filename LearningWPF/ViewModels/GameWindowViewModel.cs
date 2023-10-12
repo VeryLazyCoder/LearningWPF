@@ -24,12 +24,13 @@ namespace LearningWPF.ViewModels
 
         public ICommand KeyCommand { get; private set; } = new RelayCommand<string>(OnKeyDown);
 
-        public GameWindowViewModel()
+        public GameWindowViewModel(int mapVariant)
         {
-            Map = GameMap.CreateMap(1).Map;
+            Map = GameMap.CreateMap(mapVariant).Map;
             ColumnsCount = Map.GetLength(1);
             ImageList = new ObservableCollection<BitmapImage>();
             FillImageList();
+            FindPlayerPosition();
         }
 
         private static void OnKeyDown(string key)
@@ -70,6 +71,14 @@ namespace LearningWPF.ViewModels
             "D" => new Point(0, 1),
             _ => new Point(0, 0),
         };
+
+        private static void FindPlayerPosition()
+        {
+            for (var x = 0; x < Map.GetLength(0); x++)
+                for (var y = 0; y < Map.GetLength(1); y++)
+                    if (Map[x, y] == 'P')
+                        _playersCoordinates = new Point(x, y);
+        }
     }
 }
 

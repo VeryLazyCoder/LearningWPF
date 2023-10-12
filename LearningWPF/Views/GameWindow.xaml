@@ -8,9 +8,6 @@
         xmlns:l="clr-namespace:LearningWPF"
         mc:Ignorable="d"
         Title="GameWindow" Height="800" Width="800" >
-    <Window.DataContext>
-        <vm:GameWindowViewModel/>
-    </Window.DataContext>
     <Window.InputBindings>
         <KeyBinding Key="Escape" Command="{StaticResource CloseCommand}"></KeyBinding>
         <KeyBinding Key="W" Command="{Binding KeyCommand}" CommandParameter="W"></KeyBinding>

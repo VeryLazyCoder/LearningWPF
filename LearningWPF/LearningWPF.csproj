@@ -37,7 +37,7 @@
     <EmbeddedResource Include="Maps\small map.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <Resource Include="Maps\middle map.txt" />
+    <EmbeddedResource Include="Maps\middle map.txt" />
   </ItemGroup>
 
 </Project>

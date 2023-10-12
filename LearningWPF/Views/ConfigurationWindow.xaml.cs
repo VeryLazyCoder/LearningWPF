@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace LearningWPF.Views
 {
     /// <summary>
-    /// Логика взаимодействия для MenuWindow.xaml
+    /// Логика взаимодействия для ConfigurationWindow.xaml
     /// </summary>
-    public partial class MenuWindow : Window
+    public partial class ConfigurationWindow : Window
     {
-        public MenuWindow()
+        public ConfigurationWindow()
         {
             InitializeComponent();
         }

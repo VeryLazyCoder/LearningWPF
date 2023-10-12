@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Input;
-using GalaSoft.MvvmLight.Command;
+﻿using GalaSoft.MvvmLight.Command;
 using LearningWPF.ViewModels.ViewModelBase;
 using LearningWPF.Views;
+using System.Windows;
+using System.Windows.Input;
 
 namespace LearningWPF.ViewModels
 {
@@ -22,7 +17,7 @@ namespace LearningWPF.ViewModels
         }
 
         public ICommand SetRecordsWindowCommand { get; set; } = new RelayCommand(SwitchRecordsWindow);
-        public ICommand SetGameWindowCommand { get; set; } = new RelayCommand(SwitchGameWindow);
+        public ICommand SetConfigurationWindowCommand { get; set; } = new RelayCommand(SwitchConfigurationWindow);
         public ICommand ShowMessageCommand { get; set; } =
             new RelayCommand(() => MessageBox.Show("Это функция пока недоступна"));
 
@@ -35,11 +30,13 @@ namespace LearningWPF.ViewModels
             secondWindow.Show();
         }
 
-        private static void SwitchGameWindow()
+        private static void SwitchConfigurationWindow()
         {
-            var secondWindow = new GameWindow();
-            var viewModel = new GameWindowViewModel();
-            secondWindow.DataContext = viewModel;
+            var viewModel = new ConfigurationWindowViewModel();
+            var secondWindow = new ConfigurationWindow()
+            {
+                DataContext = viewModel
+            };
             Application.Current.MainWindow?.Close();
             secondWindow.Show();
         }
