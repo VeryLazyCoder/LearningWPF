@@ -9,7 +9,7 @@ namespace LearningWPF.ViewModels
 {
     internal class ConfigurationWindowViewModel : ViewModel
     {
-        public ObservableCollection<int> Maps { get; private set; }= new(){ 3, 2, 1 };
+        public ObservableCollection<int> Maps { get; private set; }= new(){ 1, 2, 3};
         
         private int _mapVariant = 1;
         private int _numberOfEnemies = 2;

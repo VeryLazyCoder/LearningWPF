@@ -27,7 +27,7 @@
         </TextBlock>
         <ComboBox Grid.Column="1" Grid.Row="1" SelectedItem="{Binding MapVariant}"
                   ItemsSource="{Binding Maps}" 
-                  FontSize="48" HorizontalAlignment="Center" VerticalAlignment="Center" Height="163" Width="267">
+                  FontSize="48" HorizontalAlignment="Center" VerticalAlignment="Center"  Background="Aqua">
         </ComboBox>
         <Button Grid.Column="1" Grid.Row="2" Content="К игре" FontSize="24" Background="Green" 
                 Command="{Binding SwitchToGameWindowCommand}">

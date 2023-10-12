@@ -14,7 +14,7 @@ namespace LearningWPF.ViewModels
 
         private static char[,] Map;
         private int _columnsCount;
-        private static Point _playersCoordinates = new (2, 1);
+        private static Point _playersCoordinates;
 
         public int ColumnsCount
         {
@@ -41,8 +41,11 @@ namespace LearningWPF.ViewModels
             Map[_playersCoordinates.X, _playersCoordinates.Y] = ' ';
             Map[nextPosition.X, nextPosition.Y] = 'P';
 
-
+            //var index = _playersCoordinates.X * Map.GetLength(1) + _playersCoordinates.Y;
+            //ImageList[index] = new BitmapImage(new Uri("/Images/Grass.bmp", UriKind.Relative));
             _playersCoordinates = nextPosition;
+            //index = _playersCoordinates.X * Map.GetLength(1) + _playersCoordinates.Y;
+            //ImageList[index] = new BitmapImage(new Uri("/Images/Peasant.bmp", UriKind.Relative));
 
             ImageList.Clear();
             FillImageList();
