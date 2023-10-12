@@ -9,9 +9,12 @@
 
   <ItemGroup>
     <None Remove="Images\chest.bmp" />
+    <None Remove="Images\dog.bmp" />
     <None Remove="Images\Grass.bmp" />
+    <None Remove="Images\opened.bmp" />
     <None Remove="Images\Peasant.bmp" />
     <None Remove="Images\wall.bmp" />
+    <None Remove="Images\фон1.bmp" />
     <None Remove="Images\фон2.bmp" />
     <None Remove="Maps\large map.txt" />
     <None Remove="Maps\middle map.txt" />
@@ -20,6 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\dog.bmp" />
+    <Resource Include="Images\opened.bmp" />
     <Resource Include="Images\chest.bmp" />
   </ItemGroup>
 
@@ -32,12 +37,17 @@
     <Resource Include="Images\Grass.bmp" />
     <Resource Include="Images\Peasant.bmp" />
     <Resource Include="Images\wall.bmp" />
+    <Resource Include="Images\фон1.bmp" />
     <Resource Include="Images\фон2.bmp" />
-    <Resource Include="Maps\large map.txt" />
+    <EmbeddedResource Include="Maps\large map.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Maps\small map.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Maps\middle map.txt" />
+    <EmbeddedResource Include="Maps\middle map.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>
