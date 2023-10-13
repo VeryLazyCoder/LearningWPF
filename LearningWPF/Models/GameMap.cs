@@ -39,7 +39,6 @@ namespace LearningWPF.Models
             DrawSymbolOnEmptyCell('A');
             DrawSymbolOnEmptyCell('D');
             DrawSymbolOnEmptyCell('H');
-            DrawSymbolOnEmptyCell('P');
             CountTreasures();
         }
 

@@ -15,6 +15,8 @@ namespace LearningWPF.ViewModels
         private int _numberOfEnemies = 2;
 
         private static int _staticMapVariant = 1;
+        private static int _staticNumberOfEnemies = 2;
+
         public int MapVariant
         {
             get => _mapVariant;
@@ -28,7 +30,11 @@ namespace LearningWPF.ViewModels
         public int NumberOfEnemies
         {
             get => _numberOfEnemies;
-            set => Set(ref _numberOfEnemies, value);
+            set
+            {
+                Set(ref _numberOfEnemies, value);
+                _staticNumberOfEnemies = value;
+            }
         }
 
         public ICommand SwitchToGameWindowCommand { get; private set; } = new RelayCommand(SwitchToGameWindow);

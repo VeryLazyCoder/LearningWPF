@@ -10,9 +10,11 @@
   <ItemGroup>
     <None Remove="Images\chest.bmp" />
     <None Remove="Images\dog.bmp" />
+    <None Remove="Images\enemy.bmp" />
     <None Remove="Images\Grass.bmp" />
     <None Remove="Images\opened.bmp" />
     <None Remove="Images\Peasant.bmp" />
+    <None Remove="Images\smart.bmp" />
     <None Remove="Images\wall.bmp" />
     <None Remove="Images\фон1.bmp" />
     <None Remove="Images\фон2.bmp" />
@@ -23,7 +25,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\smart.bmp" />
     <Resource Include="Images\dog.bmp" />
+    <Resource Include="Images\enemy.bmp" />
     <Resource Include="Images\opened.bmp" />
     <Resource Include="Images\chest.bmp" />
   </ItemGroup>

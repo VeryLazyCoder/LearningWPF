@@ -10,6 +10,9 @@
     <Window.DataContext>
         <vm:ConfigurationWindowViewModel></vm:ConfigurationWindowViewModel>
     </Window.DataContext>
+    <Window.InputBindings>
+        <KeyBinding Key =" Escape" Command="{StaticResource CloseCommand}"></KeyBinding>
+    </Window.InputBindings>
     <Grid>
         <Grid.Background>
             <ImageBrush ImageSource="/Images/фон1.bmp"/>
@@ -30,9 +33,9 @@
         </TextBlock>
         <ComboBox Grid.Column="1" Grid.Row="1" SelectedItem="{Binding MapVariant}"
                   ItemsSource="{Binding Maps}" 
-                  FontSize="48" HorizontalAlignment="Center" VerticalAlignment="Center"  Background="Aqua">
-        </ComboBox>
-        <Button Grid.Column="1" Grid.Row="2" Content="К игре" FontSize="24" Background="Green" 
+                  FontSize="48" HorizontalAlignment="Center" VerticalAlignment="Center"  Background="Aqua" FontWeight="Bold" 
+                  FontStyle="Italic" IsSynchronizedWithCurrentItem="False"/>
+        <Button Grid.Column="1" Grid.Row="2" Content="К игре" FontSize="24" Background="Goldenrod" 
                 Command="{Binding SwitchToGameWindowCommand}">
         </Button>
     </Grid>

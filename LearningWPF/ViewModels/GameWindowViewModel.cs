@@ -2,9 +2,11 @@
 using LearningWPF.ViewModels.ViewModelBase;
 using System;
 using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using LearningWPF.Models;
+using Point = LearningWPF.Models.Point;
 
 namespace LearningWPF.ViewModels
 {
@@ -14,7 +16,7 @@ namespace LearningWPF.ViewModels
 
         private static char[,] Map;
         private int _columnsCount;
-        private static Point _playersCoordinates;
+        private static GameRound Round;
 
         public int ColumnsCount
         {
@@ -26,29 +28,31 @@ namespace LearningWPF.ViewModels
 
         public GameWindowViewModel(int mapVariant)
         {
-            Map = GameMap.CreateMap(mapVariant).Map;
+            Round = new GameRound(mapVariant, 2);
+            Round.GameWin += () => MessageBox.Show("Victory!");
+            Round.GameLoose += () => MessageBox.Show("Loose!!!");
+            Round.PositionChanged += (previous, current, symbol) =>
+            {
+                var index = previous.X * Map.GetLength(1) + previous.Y;
+                ImageList[index] = GetBitmap(Map[previous.X, previous.Y]);
+
+                index = current.X * Map.GetLength(1) + current.Y;
+                ImageList[index] = GetBitmap(symbol);
+            };
+            Map = Round.Map.Map;
             ColumnsCount = Map.GetLength(1);
             ImageList = new ObservableCollection<BitmapImage>();
             FillImageList();
-            FindPlayerPosition();
         }
 
         private static void OnKeyDown(string key)
         {
-            var offset = GetOffsetPoint(key);
-            var nextPosition = _playersCoordinates + offset;
+            Round.GetNextTurn(GetKey(key));
 
-            Map[_playersCoordinates.X, _playersCoordinates.Y] = ' ';
-            Map[nextPosition.X, nextPosition.Y] = 'P';
+            
 
-            //var index = _playersCoordinates.X * Map.GetLength(1) + _playersCoordinates.Y;
-            //ImageList[index] = new BitmapImage(new Uri("/Images/Grass.bmp", UriKind.Relative));
-            _playersCoordinates = nextPosition;
-            //index = _playersCoordinates.X * Map.GetLength(1) + _playersCoordinates.Y;
-            //ImageList[index] = new BitmapImage(new Uri("/Images/Peasant.bmp", UriKind.Relative));
-
-            ImageList.Clear();
-            FillImageList();
+            //ImageList.Clear();
+            //FillImageList();
         }
 
         private static void FillImageList()
@@ -61,27 +65,23 @@ namespace LearningWPF.ViewModels
         private static BitmapImage GetBitmap(char symbol) => symbol switch
         {
             'P' => new BitmapImage(new Uri("/Images/Peasant.bmp", UriKind.Relative)),
+            '@' => new BitmapImage(new Uri("/Images/dog.bmp", UriKind.Relative)),
             'X' => new BitmapImage(new Uri("/Images/chest.bmp", UriKind.Relative)),
+            'O' => new BitmapImage(new Uri("/Images/opened.bmp", UriKind.Relative)),
+            'C' => new BitmapImage(new Uri("/Images/enemy.bmp", UriKind.Relative)),
+            'S' => new BitmapImage(new Uri("/Images/smart.bmp", UriKind.Relative)),
             'W' or '|' or '-' => new BitmapImage(new Uri("/Images/wall.bmp", UriKind.Relative)),
             _ => new BitmapImage(new Uri("/Images/Grass.bmp", UriKind.Relative)),
         };
 
-        private static Point GetOffsetPoint(string pressedKeyLiteral) => pressedKeyLiteral switch
+        private static ConsoleKey GetKey(string key) => key switch
         {
-            "W" => new Point(-1, 0),
-            "S" => new Point(1, 0),
-            "A" => new Point(0, -1),
-            "D" => new Point(0, 1),
-            _ => new Point(0, 0),
+            "W" => ConsoleKey.W,
+            "A" => ConsoleKey.A,
+            "S" => ConsoleKey.S,
+            "D" => ConsoleKey.D,
+            _ => ConsoleKey.Spacebar
         };
-
-        private static void FindPlayerPosition()
-        {
-            for (var x = 0; x < Map.GetLength(0); x++)
-                for (var y = 0; y < Map.GetLength(1); y++)
-                    if (Map[x, y] == 'P')
-                        _playersCoordinates = new Point(x, y);
-        }
     }
 }
 

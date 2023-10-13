@@ -7,13 +7,14 @@
         xmlns:local="clr-namespace:LearningWPF.Views"
         xmlns:l="clr-namespace:LearningWPF"
         mc:Ignorable="d"
-        Title="GameWindow" Height="800" Width="800" >
+        Title="GameWindow" Height="800" Width="800" WindowState="Maximized">
     <Window.InputBindings>
         <KeyBinding Key="Escape" Command="{StaticResource CloseCommand}"></KeyBinding>
         <KeyBinding Key="W" Command="{Binding KeyCommand}" CommandParameter="W"></KeyBinding>
         <KeyBinding Key="S" Command="{Binding KeyCommand}" CommandParameter="S"></KeyBinding>
         <KeyBinding Key="A" Command="{Binding KeyCommand}" CommandParameter="A"></KeyBinding>
         <KeyBinding Key="D" Command="{Binding KeyCommand}" CommandParameter="D"></KeyBinding>
+        <KeyBinding Key="Space" Command="{Binding KeyCommand}" CommandParameter="Space"></KeyBinding>
     </Window.InputBindings>
     <Grid>
         <Grid.RowDefinitions>
