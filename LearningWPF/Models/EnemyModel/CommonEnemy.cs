@@ -4,6 +4,8 @@ namespace LearningWPF.Models
 {
     public class CommonEnemy : IEnemy
     {
+        public event Action<Point, Point, char>? PositionChanged;
+
         private readonly GameMap _map;
         private readonly Random _random;
         private readonly Point[] _offsetPoints;
@@ -11,13 +13,15 @@ namespace LearningWPF.Models
         public Point Position { get; private set; }
         public Point PreviousPosition { get; private set; }
 
-        public CommonEnemy(Point position, GameMap map)
+        public CommonEnemy(Point position, GameMap map, Action<Point, Point, char>? positionChanged)
         {
             _map = map;
             Position = position;
             PreviousPosition = position;
+            PositionChanged += positionChanged;
             _random = new Random();
             _offsetPoints = new Point[] { new Point(0, 1), new Point(0, -1), new Point(1, 0), new Point(-1, 0) };
+            PositionChanged?.Invoke(PreviousPosition, Position, 'C');
         }
 
         public void Move(Point playerPosition)
@@ -32,12 +36,12 @@ namespace LearningWPF.Models
                     break;
                 }
             }
+
+            PositionChanged?.Invoke(PreviousPosition, Position, 'C');
         }
 
         public bool CollisionWithPlayer(Point playerPosition) =>
             playerPosition == Position || playerPosition == PreviousPosition;
-
-        public char GetEnemySymbol() => 'C';
     }
 }
 

@@ -11,7 +11,7 @@ namespace LearningWPF.Models
         public int UserScore { get; private set; }
         public event Action GameLoose;
         public event Action GameWin;
-        public event Action<Point, Point, char> PositionChanged;
+        private Action<Point, Point, char>? _positionChanged;
 
         private readonly int _startMoves;
         private readonly int _initialEnemiesCount;
@@ -21,7 +21,7 @@ namespace LearningWPF.Models
             ['X'] = (player, map) =>
             {
                 player.AddAdditionalTreasure();
-                map[player.Position] = ' ';
+                map[player.Position] = 'O';
                 player.RaiseStats();
             },
             ['A'] = (player, map) =>
@@ -41,17 +41,19 @@ namespace LearningWPF.Models
             },
             ['@'] = (player, map) => player.MovesAvailable -= 10,
             [' '] = (player, map) => { },
+            ['O'] = (player, map) => { },
         };
         private List<IEnemy> _enemies;
         //private RandomEventsHandler _eventHandler;
 
-        public GameRound(int mapVariant, int enemyCount)
+        public GameRound(GameMap map, int enemyCount, Action<Point, Point, char>? positionChanged)
         {
-            Map = GameMap.CreateMap(mapVariant);
+            _positionChanged = positionChanged;
+            Map = map;
             _startMoves = Map.MovesAvailable;
             _initialEnemiesCount = enemyCount;
             _enemies = GetEnemies(enemyCount);
-            Player = new Player(Map.GetRandomEmptyPosition(), _startMoves);
+            Player = new Player(Map.GetRandomEmptyPosition(), _startMoves, positionChanged);
             //_eventHandler = new();
         }
 
@@ -68,7 +70,7 @@ namespace LearningWPF.Models
         }
 
         public void AddAdditionalEnemy() =>
-            _enemies.Add(new CommonEnemy(Map.GetRandomEmptyPosition(), Map));
+            _enemies.Add(new CommonEnemy(Map.GetRandomEmptyPosition(), Map, _positionChanged));
 
         private void SetRoundResultIfGameIsOver()
         {
@@ -96,7 +98,7 @@ namespace LearningWPF.Models
         private void MovePlayer(ConsoleKey pressedKey)
         {
             Player.Move(pressedKey, Map);
-            PositionChanged(Player.PreviousPosition, Player.Position, 'P');
+            //PositionChanged(Player.PreviousPosition, Player.Position, 'P');
         }
 
         private void MoveEnemies()
@@ -107,7 +109,6 @@ namespace LearningWPF.Models
                 if (_enemies[i].CollisionWithPlayer(Player.Position))
                     GameLoose?.Invoke();
 
-                PositionChanged(_enemies[i].PreviousPosition, _enemies[i].Position, _enemies[i].GetEnemySymbol());
                 //{
                 //    Player.FightWithEnemy();
                 //    _enemies.RemoveAt(i);
@@ -126,7 +127,8 @@ namespace LearningWPF.Models
                 switch (i)
                 {
                     case 2:
-                        enemies.Add(GetEnemy(new Point(Map.Map.GetLength(0) - 2, Map.Map.GetLength(1) - 2)));
+                        enemies.Add(GetEnemy(new Point(Map.Map.GetLength(0) - 2, 
+                            Map.Map.GetLength(1) - 2)));
                         break;
                     case 3:
                         enemies.Add(GetEnemy(new Point(1, 1)));
@@ -139,7 +141,8 @@ namespace LearningWPF.Models
             return enemies;
         }
         private IEnemy GetEnemy(Point point) =>
-            new Random().Next(3) == 0 ? new SmartEnemy(point, Map) : new CommonEnemy(point, Map);
+            new Random().Next(3) == 0 ? new SmartEnemy(point, Map, _positionChanged) : 
+                new CommonEnemy(point, Map, _positionChanged);
 
     }
 }

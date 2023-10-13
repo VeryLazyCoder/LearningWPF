@@ -1,4 +1,5 @@
 ﻿using LearningWPF.Models;
+using System;
 
 namespace LearningWPF.Models
 {
@@ -11,6 +12,6 @@ namespace LearningWPF.Models
 
         public bool CollisionWithPlayer(Point playerPosition);
 
-        public char GetEnemySymbol();
+        public event Action<Point, Point, char> PositionChanged;
     }
 }

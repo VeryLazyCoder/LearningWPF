@@ -1,10 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace LearningWPF.Models
 {
     public class SmartEnemy : IEnemy
     {
+        public event Action<Point, Point, char>? PositionChanged;
+
+
         private readonly Dictionary<Point, Point> _track;
         private readonly GameMap _map;
         private readonly Point[] _offsetPoints;
@@ -14,9 +18,10 @@ namespace LearningWPF.Models
         public Point PreviousPosition { get; private set; }
         private Point StartPointForBfs => Position;
 
-        public SmartEnemy(Point position, GameMap map)
+        public SmartEnemy(Point position, GameMap map, Action<Point, Point, char>? positionChanged)
         {
             _map = map;
+            PositionChanged += positionChanged;
             Position = position;
             PreviousPosition = position;
             _offsetPoints = new Point[]
@@ -27,18 +32,18 @@ namespace LearningWPF.Models
                 new(0, 1)
             };
             _track = new Dictionary<Point, Point>();
+            PositionChanged?.Invoke(PreviousPosition, Position, 'S');
         }
 
         public void Move(Point playerPosition)
         {
             FormPathToPlayer(playerPosition);
             (PreviousPosition, Position) = (Position, GetNextPointToPlayer(playerPosition));
+            PositionChanged?.Invoke(PreviousPosition, Position, 'S');
         }
-        
+
         public bool CollisionWithPlayer(Point playerPosition) =>
             playerPosition == Position || playerPosition == PreviousPosition;
-
-        public char GetEnemySymbol() => 'S';
 
         private Point GetNextPointToPlayer(Point playerPosition)
         {

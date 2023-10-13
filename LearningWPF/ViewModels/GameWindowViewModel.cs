@@ -28,31 +28,27 @@ namespace LearningWPF.ViewModels
 
         public GameWindowViewModel(int mapVariant)
         {
-            Round = new GameRound(mapVariant, 2);
-            Round.GameWin += () => MessageBox.Show("Victory!");
-            Round.GameLoose += () => MessageBox.Show("Loose!!!");
-            Round.PositionChanged += (previous, current, symbol) =>
+            var map = GameMap.CreateMap(mapVariant);
+            Map = map.Map;
+            ColumnsCount = Map.GetLength(1);
+            ImageList = new ObservableCollection<BitmapImage>();
+            FillImageList();
+            Round = new GameRound(map, 2, (previous, current, symbol) =>
             {
                 var index = previous.X * Map.GetLength(1) + previous.Y;
                 ImageList[index] = GetBitmap(Map[previous.X, previous.Y]);
 
                 index = current.X * Map.GetLength(1) + current.Y;
                 ImageList[index] = GetBitmap(symbol);
-            };
-            Map = Round.Map.Map;
-            ColumnsCount = Map.GetLength(1);
-            ImageList = new ObservableCollection<BitmapImage>();
-            FillImageList();
+            });
+            Round.GameWin += () => MessageBox.Show("Victory!");
+            Round.GameLoose += () => MessageBox.Show("Loose!!!");
         }
 
         private static void OnKeyDown(string key)
         {
             Round.GetNextTurn(GetKey(key));
-
             
-
-            //ImageList.Clear();
-            //FillImageList();
         }
 
         private static void FillImageList()
