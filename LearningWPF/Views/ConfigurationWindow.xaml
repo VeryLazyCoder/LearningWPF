@@ -6,7 +6,7 @@
         xmlns:vm="clr-namespace:LearningWPF.ViewModels"
         xmlns:local="clr-namespace:LearningWPF.Views"
         mc:Ignorable="d"
-        Title="ConfigurationWindow" Height="450" Width="800">
+        Title="ConfigurationWindow" Height="450" Width="800" WindowState="Maximized">
     <Window.DataContext>
         <vm:ConfigurationWindowViewModel></vm:ConfigurationWindowViewModel>
     </Window.DataContext>
@@ -21,21 +21,35 @@
             <RowDefinition Height="200*"/>
             <RowDefinition Height="300*"/>
             <RowDefinition Height="300*"/>
+            <RowDefinition Height="300*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="250*"/>
             <ColumnDefinition Width="250*"/>
             <ColumnDefinition Width="250*"/>
+            <ColumnDefinition Width="250*"/>
         </Grid.ColumnDefinitions>
         <TextBlock Text="Выберите размер карты и количество противников" 
-                   Grid.ColumnSpan="3" Foreground="#FF202320" HorizontalAlignment="Center" 
-                   FontSize="22" FontFamily="Arial Black" VerticalAlignment="Center">
+                   Grid.ColumnSpan="4" Foreground="#FF202320" HorizontalAlignment="Center" 
+                   FontSize="32" FontFamily="Arial Black" VerticalAlignment="Center">
         </TextBlock>
-        <ComboBox Grid.Column="1" Grid.Row="1" SelectedItem="{Binding MapVariant}"
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Номер карты" 
+                   Grid.ColumnSpan="2" Foreground="#FF202320" HorizontalAlignment="Center" 
+                   FontSize="38" FontFamily="Arial Black" VerticalAlignment="Center">
+        </TextBlock>
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="Количество противников" 
+                   Grid.ColumnSpan="2" Foreground="#FF202320" HorizontalAlignment="Center" 
+                   FontSize="38" FontFamily="Arial Black" VerticalAlignment="Center">
+        </TextBlock>
+        <ComboBox Grid.Column="2" Grid.Row="1" SelectedItem="{Binding MapVariant}"
                   ItemsSource="{Binding Maps}" 
                   FontSize="48" HorizontalAlignment="Center" VerticalAlignment="Center"  Background="Aqua" FontWeight="Bold" 
                   FontStyle="Italic" IsSynchronizedWithCurrentItem="False"/>
-        <Button Grid.Column="1" Grid.Row="2" Content="К игре" FontSize="24" Background="Goldenrod" 
+        <ComboBox Grid.Column="2" Grid.Row="2" SelectedItem="{Binding NumberOfEnemies}"
+                  ItemsSource="{Binding Enemies}" 
+                  FontSize="48" HorizontalAlignment="Center" VerticalAlignment="Center"  Background="Aqua" FontWeight="Bold" 
+                  FontStyle="Italic" IsSynchronizedWithCurrentItem="False"/>
+        <Button Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="3" Content="К игре" FontSize="24" Background="Goldenrod" 
                 Command="{Binding SwitchToGameWindowCommand}">
         </Button>
     </Grid>

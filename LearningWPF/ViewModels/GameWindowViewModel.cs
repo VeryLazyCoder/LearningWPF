@@ -1,22 +1,25 @@
 ﻿using GalaSoft.MvvmLight.Command;
+using LearningWPF.Models;
 using LearningWPF.ViewModels.ViewModelBase;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
-using LearningWPF.Models;
 using Point = LearningWPF.Models.Point;
 
 namespace LearningWPF.ViewModels
 {
-    internal class GameWindowViewModel : ViewModel
+    public class GameWindowViewModel : ViewModel
     {
         public static ObservableCollection<BitmapImage> ImageList { get; private set; } = new();
 
         private static char[,] Map;
-        private int _columnsCount;
         private static GameRound Round;
+
+
+        private int _columnsCount;
+        private string _playerStats;
 
         public int ColumnsCount
         {
@@ -24,31 +27,30 @@ namespace LearningWPF.ViewModels
             set => Set(ref _columnsCount, value);
         }
 
+        public string PlayerStats
+        {
+            get => _playerStats;
+            set => Set(ref _playerStats, value);
+        }
+
         public ICommand KeyCommand { get; private set; } = new RelayCommand<string>(OnKeyDown);
 
-        public GameWindowViewModel(int mapVariant)
+        public GameWindowViewModel(int mapVariant, int numberOfEnemies)
         {
             var map = GameMap.CreateMap(mapVariant);
             Map = map.Map;
             ColumnsCount = Map.GetLength(1);
             ImageList = new ObservableCollection<BitmapImage>();
             FillImageList();
-            Round = new GameRound(map, 2, (previous, current, symbol) =>
-            {
-                var index = previous.X * Map.GetLength(1) + previous.Y;
-                ImageList[index] = GetBitmap(Map[previous.X, previous.Y]);
-
-                index = current.X * Map.GetLength(1) + current.Y;
-                ImageList[index] = GetBitmap(symbol);
-            });
+            Round = new GameRound(map, numberOfEnemies, OnPositionChanged);
             Round.GameWin += () => MessageBox.Show("Victory!");
             Round.GameLoose += () => MessageBox.Show("Loose!!!");
+            Round.StatsChanged += text => PlayerStats = text;
         }
 
         private static void OnKeyDown(string key)
         {
             Round.GetNextTurn(GetKey(key));
-            
         }
 
         private static void FillImageList()
@@ -78,6 +80,15 @@ namespace LearningWPF.ViewModels
             "D" => ConsoleKey.D,
             _ => ConsoleKey.Spacebar
         };
+
+        private static void OnPositionChanged(Point previous, Point current, char gameObject)
+        {
+            var index = previous.X * Map.GetLength(1) + previous.Y;
+            ImageList[index] = GetBitmap(Map[previous.X, previous.Y]);
+
+            index = current.X * Map.GetLength(1) + current.Y;
+            ImageList[index] = GetBitmap(gameObject);
+        }
     }
 }
 

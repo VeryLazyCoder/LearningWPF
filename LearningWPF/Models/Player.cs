@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
 
 namespace LearningWPF.Models
 {
@@ -11,13 +10,13 @@ namespace LearningWPF.Models
         public int MovesAvailable { get; set; }
         public bool IsDead => MovesAvailable <= 0 || Health <= 0;
         public int TreasureCount { get; private set; }
-        public event Action<Point, Point, char>? PositionChanged;
+        public Action<Point, Point, char> PositionChanged;
 
 
         private readonly List<Fighter> _enemyFighters;
         private readonly Random _random;
 
-        public Player(Point position, int moves, Action<Point, Point, char>? positionChanged) : 
+        public Player(Point position, int moves, Action<Point, Point, char> positionChanged) : 
             base("игрок", 150, 2, 25, "Хороший вопрос")
         {
             PositionChanged = positionChanged;
@@ -25,7 +24,7 @@ namespace LearningWPF.Models
             Position = position;
             PreviousPosition = position;
             MovesAvailable = moves;
-            PositionChanged?.Invoke(PreviousPosition, Position, 'P');
+            PositionChanged(PreviousPosition, Position, 'P');
 
             _enemyFighters = new List<Fighter>
             {
@@ -50,7 +49,7 @@ namespace LearningWPF.Models
                 Position += offset;
 
             MovesAvailable--;
-            PositionChanged?.Invoke(PreviousPosition, Position, 'P');
+            PositionChanged(PreviousPosition, Position, 'P');
         }
 
         public string GetPlayerStatistic()
@@ -74,5 +73,11 @@ namespace LearningWPF.Models
             ConsoleKey.D => new Point(0, 1),
             _ => new Point(0, 0)
         };
+
+        public override string ToString()
+        {
+            return $"Здоровье {Health:F0}\t\tБроня {Armor:F2}\t\tУрон {Damage:F0} " +
+                   $"\nОсталось ходов {MovesAvailable}\t\t\t\tСобрано сокровищ {TreasureCount}";
+        }
     }
 }

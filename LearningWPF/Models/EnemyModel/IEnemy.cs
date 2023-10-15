@@ -11,7 +11,5 @@ namespace LearningWPF.Models
         public void Move(Point playerPosition);
 
         public bool CollisionWithPlayer(Point playerPosition);
-
-        public event Action<Point, Point, char> PositionChanged;
     }
 }

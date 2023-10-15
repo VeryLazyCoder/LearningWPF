@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using GalaSoft.MvvmLight.Command;
 using LearningWPF.ViewModels.ViewModelBase;
 using LearningWPF.Views;
@@ -9,7 +10,8 @@ namespace LearningWPF.ViewModels
 {
     internal class ConfigurationWindowViewModel : ViewModel
     {
-        public ObservableCollection<int> Maps { get; private set; }= new(){ 1, 2, 3};
+        public ObservableCollection<int> Maps { get; private set; }= new(Enumerable.Range(1, 3));
+        public ObservableCollection<int> Enemies { get; private set; }= new(Enumerable.Range(0,10));
         
         private int _mapVariant = 1;
         private int _numberOfEnemies = 2;
@@ -41,9 +43,8 @@ namespace LearningWPF.ViewModels
 
         private static void SwitchToGameWindow()
         {
-            var secondWindow = new GameWindow();
-            var viewModel = new GameWindowViewModel(_staticMapVariant);
-            secondWindow.DataContext = viewModel;
+            var viewModel = new GameWindowViewModel(_staticMapVariant, _staticNumberOfEnemies);
+            var secondWindow = new GameWindow(viewModel);
             secondWindow.Show();
             foreach (Window window in Application.Current.Windows)
                 if (window.DataContext != viewModel)

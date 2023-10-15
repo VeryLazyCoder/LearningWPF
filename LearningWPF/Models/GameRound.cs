@@ -9,10 +9,12 @@ namespace LearningWPF.Models
         public GameMap Map { get; }
         public bool? IsWon { get; private set; }
         public int UserScore { get; private set; }
+
         public event Action GameLoose;
         public event Action GameWin;
-        private Action<Point, Point, char>? _positionChanged;
+        public event Action<string> StatsChanged;
 
+        private readonly Action<Point, Point, char> _positionChanged;
         private readonly int _startMoves;
         private readonly int _initialEnemiesCount;
 
@@ -46,7 +48,7 @@ namespace LearningWPF.Models
         private List<IEnemy> _enemies;
         //private RandomEventsHandler _eventHandler;
 
-        public GameRound(GameMap map, int enemyCount, Action<Point, Point, char>? positionChanged)
+        public GameRound(GameMap map, int enemyCount, Action<Point, Point, char> positionChanged)
         {
             _positionChanged = positionChanged;
             Map = map;
@@ -59,14 +61,14 @@ namespace LearningWPF.Models
 
         public void GetNextTurn(ConsoleKey pressedKey)
         {
+            ChangeGameState(pressedKey);
+            SetRoundResultIfGameIsOver();
+
             if (IsWon == true)
                 GameWin?.Invoke();
 
-            if (IsWon == true)
+            if (IsWon == false)
                 GameLoose?.Invoke();
-
-            ChangeGameState(pressedKey);
-            SetRoundResultIfGameIsOver();
         }
 
         public void AddAdditionalEnemy() =>
@@ -93,12 +95,12 @@ namespace LearningWPF.Models
             MoveEnemies();
             //_eventHandler.TryRaiseEvent(this);
             _actionsOnCollision[Map[Player.Position]].Invoke(Player, Map);
+            StatsChanged?.Invoke(Player.ToString());
         }
 
         private void MovePlayer(ConsoleKey pressedKey)
         {
             Player.Move(pressedKey, Map);
-            //PositionChanged(Player.PreviousPosition, Player.Position, 'P');
         }
 
         private void MoveEnemies()
@@ -107,7 +109,7 @@ namespace LearningWPF.Models
             {
                 _enemies[i].Move(Player.Position);
                 if (_enemies[i].CollisionWithPlayer(Player.Position))
-                    GameLoose?.Invoke();
+                    Player.TakeDamage(1000);
 
                 //{
                 //    Player.FightWithEnemy();

@@ -6,7 +6,7 @@ namespace LearningWPF.Models
 {
     public class SmartEnemy : IEnemy
     {
-        public event Action<Point, Point, char>? PositionChanged;
+        public Action<Point, Point, char> PositionChanged;
 
 
         private readonly Dictionary<Point, Point> _track;
@@ -18,10 +18,10 @@ namespace LearningWPF.Models
         public Point PreviousPosition { get; private set; }
         private Point StartPointForBfs => Position;
 
-        public SmartEnemy(Point position, GameMap map, Action<Point, Point, char>? positionChanged)
+        public SmartEnemy(Point position, GameMap map, Action<Point, Point, char> positionChanged)
         {
             _map = map;
-            PositionChanged += positionChanged;
+            PositionChanged = positionChanged;
             Position = position;
             PreviousPosition = position;
             _offsetPoints = new Point[]
