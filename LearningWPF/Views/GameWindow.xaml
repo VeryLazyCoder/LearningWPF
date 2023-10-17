@@ -16,6 +16,9 @@
         <KeyBinding Key="D" Command="{Binding KeyCommand}" CommandParameter="D"></KeyBinding>
         <KeyBinding Key="Space" Command="{Binding KeyCommand}" CommandParameter="Space"></KeyBinding>
     </Window.InputBindings>
+    <Window.DataContext>
+        <vm:GameWindowViewModel></vm:GameWindowViewModel>
+    </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="500*"></RowDefinition>

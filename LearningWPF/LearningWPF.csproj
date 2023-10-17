@@ -8,10 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\armor.bmp" />
     <None Remove="Images\chest.bmp" />
+    <None Remove="Images\damage.bmp" />
     <None Remove="Images\dog.bmp" />
     <None Remove="Images\enemy.bmp" />
     <None Remove="Images\Grass.bmp" />
+    <None Remove="Images\health.bmp" />
     <None Remove="Images\opened.bmp" />
     <None Remove="Images\Peasant.bmp" />
     <None Remove="Images\smart.bmp" />
@@ -25,6 +28,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\armor.bmp" />
+    <Resource Include="Images\damage.bmp" />
+    <Resource Include="Images\health.bmp" />
     <Resource Include="Images\smart.bmp" />
     <Resource Include="Images\dog.bmp" />
     <Resource Include="Images\enemy.bmp" />

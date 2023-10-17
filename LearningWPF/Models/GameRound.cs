@@ -56,7 +56,7 @@ namespace LearningWPF.Models
             _initialEnemiesCount = enemyCount;
             _enemies = GetEnemies(enemyCount);
             Player = new Player(Map.GetRandomEmptyPosition(), _startMoves, positionChanged);
-            //_eventHandler = new();
+            //_eventHandler = new RandomEventsHandler();
         }
 
         public void GetNextTurn(ConsoleKey pressedKey)

@@ -16,7 +16,7 @@ namespace LearningWPF.ViewModels
 
         private static char[,] Map;
         private static GameRound Round;
-
+        private static RandomEventsHandler EventsHandler;
 
         private int _columnsCount;
         private string _playerStats;
@@ -46,10 +46,14 @@ namespace LearningWPF.ViewModels
             Round.GameWin += () => MessageBox.Show("Victory!");
             Round.GameLoose += () => MessageBox.Show("Loose!!!");
             Round.StatsChanged += text => PlayerStats = text;
+            EventsHandler = new RandomEventsHandler((text) => MessageBox.Show(text), Round);
         }
+
+        public GameWindowViewModel(){}
 
         private static void OnKeyDown(string key)
         {
+            EventsHandler.TryRaiseEvent();
             Round.GetNextTurn(GetKey(key));
         }
 
@@ -68,6 +72,9 @@ namespace LearningWPF.ViewModels
             'O' => new BitmapImage(new Uri("/Images/opened.bmp", UriKind.Relative)),
             'C' => new BitmapImage(new Uri("/Images/enemy.bmp", UriKind.Relative)),
             'S' => new BitmapImage(new Uri("/Images/smart.bmp", UriKind.Relative)),
+            'A' => new BitmapImage(new Uri("/Images/armor.bmp", UriKind.Relative)),
+            'D' => new BitmapImage(new Uri("/Images/damage.bmp", UriKind.Relative)),
+            'H' => new BitmapImage(new Uri("/Images/health.bmp", UriKind.Relative)),
             'W' or '|' or '-' => new BitmapImage(new Uri("/Images/wall.bmp", UriKind.Relative)),
             _ => new BitmapImage(new Uri("/Images/Grass.bmp", UriKind.Relative)),
         };
