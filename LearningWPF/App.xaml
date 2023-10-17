@@ -7,6 +7,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <commands:CloseApplicationCommand x:Key="CloseCommand"/>
+            <commands:SwitchToMenuWindowCommand x:Key="SwitchToMenuCommand"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

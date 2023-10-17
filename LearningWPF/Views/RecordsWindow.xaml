@@ -36,7 +36,7 @@
                 Grid.ColumnSpan="3" Height="137" Margin="333,147,333,0" Grid.RowSpan="2" 
                 FontSize="22" Background="#FF5EBB21" BorderBrush="#FF29295A" 
                 Foreground="Black" FontStyle="Italic" FontWeight="Bold" FontStretch="Condensed" 
-                Command="{Binding SwitchWindowCommand}"/>
+                Command="{StaticResource SwitchToMenuCommand}"/>
         <TextBlock Text="{Binding Title}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" 
                    FontSize="22" TextAlignment="Center"/>
     </Grid>

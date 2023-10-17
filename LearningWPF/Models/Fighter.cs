@@ -1,40 +1,28 @@
-﻿using System;
-
-namespace LearningWPF.Models
+﻿namespace LearningWPF.Models
 {
     public class Fighter
     {
         public float Health { get; protected set; }
         public float Damage { get; protected set; }
         public float Armor { get; protected set; }
-        public string Name { get; }
 
-        private readonly string _specialAbilities;
-        public Fighter(string name, float health, float armor, float damage,
-            string special = " отсутствуют")
+        public Fighter( float health, float armor, float damage)
         {
-            Name = name;
             Health = health;
             Armor = armor;
             Damage = damage;
-            _specialAbilities = special;
         }
+
         public string GetFighterStats()
         {
-            return $"Боец {Name} обладает {Health} хп, " +
-                $"{Armor} брони и наносит {Damage} урона. \nСпециальные способности: {_specialAbilities}";
+            return $"У противника оказалось {Health} здоровья. Наносит он {Damage} урона. " +
+                   $"А защищён он {Armor} единицами брони";
         }
+
         public void TakeDamage(float damage)
         {
             var trueDamage = damage - (damage * (Armor / 10));
             Health -= trueDamage;
-        }
-        
-        public void ShowRoundStatistic(float enemyFighterDamage)
-        {
-            Console.WriteLine($"По персонажу {Name} нанесено " +
-                $"{enemyFighterDamage - (enemyFighterDamage * (Armor / 10))} " +
-                $"урона, у него осталось {Health} здоровья");
         }
 
         public void ChangeHealthFor(float value) => Health += value;

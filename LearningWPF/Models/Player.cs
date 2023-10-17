@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
+using LearningWPF.Infrastructure;
 
 namespace LearningWPF.Models
 {
@@ -8,33 +10,30 @@ namespace LearningWPF.Models
         public Point Position { get; private set; }
         public Point PreviousPosition { get; private set; }
         public int MovesAvailable { get; set; }
-        public bool IsDead => MovesAvailable <= 0 || Health <= 0;
         public int TreasureCount { get; private set; }
-        public Action<Point, Point, char> PositionChanged;
+        public bool IsDead => MovesAvailable <= 0 || Health <= 0;
 
-
+        private readonly Action<Point, Point, char> _positionChanged;
         private readonly List<Fighter> _enemyFighters;
         private readonly Random _random;
 
         public Player(Point position, int moves, Action<Point, Point, char> positionChanged) : 
-            base("игрок", 150, 2, 25, "Хороший вопрос")
+            base(150, 2, 25)
         {
-            PositionChanged = positionChanged;
+            _positionChanged = positionChanged;
             _random = new Random();
             Position = position;
             PreviousPosition = position;
             MovesAvailable = moves;
-            PositionChanged(PreviousPosition, Position, 'P');
+            _positionChanged(PreviousPosition, Position, 'P');
 
             _enemyFighters = new List<Fighter>
             {
-                new("Сумасшедший Маньяк", 200f + _random.Next(-20, 21),
-                    2 + _random.Next(-1, 2), 75f + _random.Next(-7, 8),
-                    "в зависимости от степени чесания головы меняет свои характеристики"),
-                new("Сын маминой подруги", 10f, 9.25f, 100f, "обладает сюжетной бронёй"),
-                new("Обезьяна", 500f, 2, 25f, " мозгов нет, здоровья много"),
-                new("Ноутбук ирбис", 1000f, 2, 3.5f, "легенда, если проиграет попадёт к вам на стол." +
-                                                     "Вы точно хотите этого?")
+                new( 200f + _random.Next(-20, 21),
+                    2 + _random.Next(-1, 2), 75f + _random.Next(-7, 8)),
+                new(10f, 9.25f, 100f),
+                new(500f, 2, 25f),
+                new( 1000f, 2, 3.5f)
             };
         }
 
@@ -49,13 +48,7 @@ namespace LearningWPF.Models
                 Position += offset;
 
             MovesAvailable--;
-            PositionChanged(PreviousPosition, Position, 'P');
-        }
-
-        public string GetPlayerStatistic()
-        {
-            return $"Ваше здоровье {Health}\nВаш урон составляет {Damage}\n" +
-                   $"Ваша броня  {Armor}\nОсталось ходов: {MovesAvailable}\nСчётчик сокровищ: {TreasureCount}";
+            _positionChanged(PreviousPosition, Position, 'P');
         }
 
         public void RaiseStats()
@@ -78,6 +71,55 @@ namespace LearningWPF.Models
         {
             return $"Здоровье {Health:F0}\t\tБроня {Armor:F2}\t\tУрон {Damage:F0} " +
                    $"\nОсталось ходов {MovesAvailable}\t\t\t\tСобрано сокровищ {TreasureCount}";
+        }
+
+        public void FightWithEnemy()
+        {
+            var result = new StringBuilder();
+            var enemyFighter = GetRandomEnemy();
+            result.AppendLine(enemyFighter.GetFighterStats());
+            LaunchFight(enemyFighter);
+            result.AppendLine(GetFightResult());
+            new ShowMessageBoxCommand().Execute(result.ToString());
+            _positionChanged(PreviousPosition, Position, 'P');
+        }
+
+
+        private Fighter GetRandomEnemy()
+        {
+            if (_enemyFighters.Count <= 1)
+                AddSecretEnemies();
+
+            return _enemyFighters[_random.Next(_enemyFighters.Count)];
+        }
+
+        private string GetFightResult() =>
+            IsDead ? "Вы проиграли" : "Вы победили этого противника, пока что...";
+
+        private void LaunchFight(Fighter enemyFighter)
+        {
+            LaunchBattleCycle(enemyFighter);
+
+            if (Health > 0)
+                _enemyFighters.Remove(enemyFighter);
+        }
+
+        private void LaunchBattleCycle(Fighter enemyFighter)
+        {
+            while (Health > 0 && enemyFighter.Health > 0)
+            {
+                enemyFighter.TakeDamage(Damage);
+                TakeDamage(enemyFighter.Damage);
+            }
+        }
+
+        private void AddSecretEnemies()
+        {
+            var random = new Random();
+            _enemyFighters.Add(new Fighter( int.MaxValue / 500, 0, int.MaxValue / 500));
+            _enemyFighters.Add(new Fighter(random.Next(0, int.MaxValue / 500),
+                random.Next(0, 11),
+                random.Next(0, int.MaxValue / 500)));
         }
     }
 }

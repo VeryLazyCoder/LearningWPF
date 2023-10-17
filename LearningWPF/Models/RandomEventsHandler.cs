@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using LearningWPF.Infrastructure;
 
 namespace LearningWPF.Models
 {
@@ -18,7 +19,7 @@ namespace LearningWPF.Models
                 "здоровье уменьшилось")
         };
         private readonly Random _random;
-        private readonly List<Action<GameRound>> _actions = new()
+        private readonly List<Action<GameRound?>> _actions = new()
         {
             game => game.Player.MovesAvailable -= 5,
             game => game.Player.MovesAvailable += 5,
@@ -27,12 +28,10 @@ namespace LearningWPF.Models
             game => game.Player.ChangeHealthFor(25),
             game => game.Player.ChangeHealthFor(-25),
         };
-        private readonly Action<string> _onEventRaised;
-        private readonly GameRound _round;
+        private readonly GameRound? _round;
 
-        public RandomEventsHandler(Action<string> onEventRaised, GameRound round)
+        public RandomEventsHandler(GameRound? round)
         {
-            _onEventRaised = onEventRaised;
             _random = new Random();
             _round = round;
         }
@@ -48,7 +47,7 @@ namespace LearningWPF.Models
         {
             var eventNumber = _random.Next(_events.Count);
             _actions[eventNumber].Invoke(_round);
-            _onEventRaised(_events[eventNumber].ToString());
+            new ShowMessageBoxCommand().Execute(_events[eventNumber].ToString());
         }
     }
 

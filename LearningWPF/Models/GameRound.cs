@@ -45,8 +45,7 @@ namespace LearningWPF.Models
             [' '] = (player, map) => { },
             ['O'] = (player, map) => { },
         };
-        private List<IEnemy> _enemies;
-        //private RandomEventsHandler _eventHandler;
+        private readonly List<IEnemy> _enemies;
 
         public GameRound(GameMap map, int enemyCount, Action<Point, Point, char> positionChanged)
         {
@@ -56,7 +55,6 @@ namespace LearningWPF.Models
             _initialEnemiesCount = enemyCount;
             _enemies = GetEnemies(enemyCount);
             Player = new Player(Map.GetRandomEmptyPosition(), _startMoves, positionChanged);
-            //_eventHandler = new RandomEventsHandler();
         }
 
         public void GetNextTurn(ConsoleKey pressedKey)
@@ -93,7 +91,6 @@ namespace LearningWPF.Models
         {
             MovePlayer(pressedKey);
             MoveEnemies();
-            //_eventHandler.TryRaiseEvent(this);
             _actionsOnCollision[Map[Player.Position]].Invoke(Player, Map);
             StatsChanged?.Invoke(Player.ToString());
         }
@@ -109,14 +106,10 @@ namespace LearningWPF.Models
             {
                 _enemies[i].Move(Player.Position);
                 if (_enemies[i].CollisionWithPlayer(Player.Position))
-                    Player.TakeDamage(1000);
-
-                //{
-                //    Player.FightWithEnemy();
-                //    _enemies.RemoveAt(i);
-                //    Map.DrawMap();
-                //    break;
-                //}
+                {
+                    Player.FightWithEnemy();
+                    _enemies.RemoveAt(i);
+                }
             }
         }
 

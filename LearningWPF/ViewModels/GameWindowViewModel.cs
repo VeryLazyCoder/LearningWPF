@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using LearningWPF.Infrastructure;
 using Point = LearningWPF.Models.Point;
 
 namespace LearningWPF.ViewModels
@@ -14,9 +15,9 @@ namespace LearningWPF.ViewModels
     {
         public static ObservableCollection<BitmapImage> ImageList { get; private set; } = new();
 
-        private static char[,] Map;
-        private static GameRound Round;
-        private static RandomEventsHandler EventsHandler;
+        private static char[,] _map;
+        private static GameRound _round;
+        private static RandomEventsHandler _eventsHandler;
 
         private int _columnsCount;
         private string _playerStats;
@@ -38,30 +39,34 @@ namespace LearningWPF.ViewModels
         public GameWindowViewModel(int mapVariant, int numberOfEnemies)
         {
             var map = GameMap.CreateMap(mapVariant);
-            Map = map.Map;
-            ColumnsCount = Map.GetLength(1);
+            _map = map.Map;
+            ColumnsCount = _map.GetLength(1);
             ImageList = new ObservableCollection<BitmapImage>();
             FillImageList();
-            Round = new GameRound(map, numberOfEnemies, OnPositionChanged);
-            Round.GameWin += () => MessageBox.Show("Victory!");
-            Round.GameLoose += () => MessageBox.Show("Loose!!!");
-            Round.StatsChanged += text => PlayerStats = text;
-            EventsHandler = new RandomEventsHandler((text) => MessageBox.Show(text), Round);
+            _round = new GameRound(map, numberOfEnemies, OnPositionChanged);
+            _round.GameWin += () => MessageBox.Show("Victory!");
+            _round.GameLoose += () =>
+            {
+                MessageBox.Show("Loose!!!");
+                new SwitchToMenuWindowCommand().Execute(this);
+            };
+            _round.StatsChanged += text => PlayerStats = text;
+            _eventsHandler = new RandomEventsHandler(_round);
         }
 
         public GameWindowViewModel(){}
 
         private static void OnKeyDown(string key)
         {
-            EventsHandler.TryRaiseEvent();
-            Round.GetNextTurn(GetKey(key));
+            _eventsHandler.TryRaiseEvent();
+            _round.GetNextTurn(GetKey(key));
         }
 
         private static void FillImageList()
         {
-            for (var row = 0; row < Map.GetLength(0); row++)
-                for (var col = 0; col < Map.GetLength(1); col++)
-                    ImageList.Add(GetBitmap(Map[row, col]));
+            for (var row = 0; row < _map.GetLength(0); row++)
+                for (var col = 0; col < _map.GetLength(1); col++)
+                    ImageList.Add(GetBitmap(_map[row, col]));
         }
 
         private static BitmapImage GetBitmap(char symbol) => symbol switch
@@ -90,10 +95,10 @@ namespace LearningWPF.ViewModels
 
         private static void OnPositionChanged(Point previous, Point current, char gameObject)
         {
-            var index = previous.X * Map.GetLength(1) + previous.Y;
-            ImageList[index] = GetBitmap(Map[previous.X, previous.Y]);
+            var index = previous.X * _map.GetLength(1) + previous.Y;
+            ImageList[index] = GetBitmap(_map[previous.X, previous.Y]);
 
-            index = current.X * Map.GetLength(1) + current.Y;
+            index = current.X * _map.GetLength(1) + current.Y;
             ImageList[index] = GetBitmap(gameObject);
         }
     }
