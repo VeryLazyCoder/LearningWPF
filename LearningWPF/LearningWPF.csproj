@@ -18,6 +18,7 @@
     <None Remove="Images\opened.bmp" />
     <None Remove="Images\Peasant.bmp" />
     <None Remove="Images\smart.bmp" />
+    <None Remove="Images\test.png" />
     <None Remove="Images\wall.bmp" />
     <None Remove="Images\фон1.bmp" />
     <None Remove="Images\фон2.bmp" />
@@ -46,6 +47,7 @@
   <ItemGroup>
     <Resource Include="Images\Grass.bmp" />
     <Resource Include="Images\Peasant.bmp" />
+    <Resource Include="Images\test.png" />
     <Resource Include="Images\wall.bmp" />
     <Resource Include="Images\фон1.bmp" />
     <Resource Include="Images\фон2.bmp" />

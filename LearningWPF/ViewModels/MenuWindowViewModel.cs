@@ -26,7 +26,9 @@ namespace LearningWPF.ViewModels
             var secondWindow = new RecordsWindow();
             var viewModel = new RecordsWindowViewModel();
             secondWindow.DataContext = viewModel;
-            Application.Current.MainWindow?.Close();
+            foreach (Window window in Application.Current.Windows)
+                if (window.DataContext != viewModel)
+                    window.Close();
             secondWindow.Show();
         }
 
@@ -37,7 +39,9 @@ namespace LearningWPF.ViewModels
             {
                 DataContext = viewModel
             };
-            Application.Current.MainWindow?.Close();
+            foreach (Window window in Application.Current.Windows)
+                if (window.DataContext != viewModel)
+                    window.Close();
             secondWindow.Show();
         }
     }

@@ -1,44 +1,65 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
 
 namespace LearningWPF.Models
 {
     public static class RecordsRepository
     {
         private static int _maxID;
-        private static int _mapID;
-        private static List<UserData> _userRecords = new();
-        private static string connectionString =
+        private static List<UserData> _userRecords;
+        private const string CONNECTION_STRING = 
             @"Server=ByashaLaptop\SQLEXPRESS, 49172;Database=Reckords;User Id=TEST2;Password=qwerty12345;";
+
+        static RecordsRepository()
+        {
+            using SqlConnection connection = new(CONNECTION_STRING);
+            connection.Open();
+            using SqlCommand command = new("select max(Id) from Reckord", connection);
+            _maxID = (int)(command.ExecuteScalar() ?? 1);
+            _userRecords = new List<UserData>();
+        }
 
         public static List<UserData> LoadRecords(int mapID)
         {
-            _mapID = mapID;
-            using SqlConnection connection = new(connectionString);
+            using SqlConnection connection = new(CONNECTION_STRING);
             connection.Open();
 
             var sqlQuery = @$"SELECT TOP 10 * FROM Reckord where maptype = {mapID} ORDER BY Score ASC";
             using SqlCommand command = new(sqlQuery, connection);
-            using SqlDataReader reader = command.ExecuteReader();
+            using var reader = command.ExecuteReader();
 
             _userRecords = new List<UserData>();
             while (reader.Read())
             {
-                string name = (string)reader["Nickname"];
-                int score = (int)reader["Score"];
-                DateTime date = (DateTime)reader["ScoreDate"];
+                var name = (string)reader["Nickname"];
+                var score = (int)reader["Score"];
+                var date = (DateTime)reader["ScoreDate"];
                 _userRecords.Add(new UserData(name, score, date));
             }
             reader.Close();
-
-            command.CommandText = "select max(Id) from Reckord";
-            _maxID = (int)(command.ExecuteScalar() ?? 1);
             return _userRecords;
+        }
+
+        public static void UpdateBase(UserData newRow, int mapVariant)
+        {
+            using SqlConnection connection = new(CONNECTION_STRING);
+            connection.Open();
+
+            var insertQuery = $"insert into Reckord values ({++_maxID}, '{newRow.Name}', {newRow.Score}, " +
+                                 $"'{newRow.Date}', {mapVariant})";
+            using SqlCommand insertCommand = new(insertQuery, connection);
+            insertCommand.ExecuteNonQuery();
+
+            _userRecords.Add(newRow);
+            _userRecords = _userRecords.OrderBy(x => x.Score).ToList();
+
+            connection.Close();
         }
     }
 
-    public struct UserData
+    public readonly struct UserData
     {
         public string Name { get; init; }
         public int Score { get; init; }
