@@ -10,8 +10,8 @@ namespace LearningWPF.ViewModels
 {
     internal class ConfigurationWindowViewModel : ViewModel
     {
-        public ObservableCollection<int> Maps { get; private set; }= new(Enumerable.Range(1, 3));
-        public ObservableCollection<int> Enemies { get; private set; }= new(Enumerable.Range(0,10));
+        public ObservableCollection<int> Maps { get; private set; } = new(Enumerable.Range(1, 3));
+        public ObservableCollection<int> Enemies { get; private set; } = new(Enumerable.Range(0,10));
         
         private int _mapVariant = 1;
         private int _numberOfEnemies = 2;

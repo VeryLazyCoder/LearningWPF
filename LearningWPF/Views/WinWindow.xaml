@@ -6,9 +6,31 @@
         xmlns:vm="clr-namespace:LearningWPF.ViewModels"
         xmlns:local="clr-namespace:LearningWPF.Views"
         mc:Ignorable="d"
-        Title="WinWindow" Height="450" Width="800">
+        Title="WinWindow" Height="450" Width="800" WindowState="Maximized">
+    <Window.DataContext>
+        <vm:WinWindowViewModel></vm:WinWindowViewModel>
+    </Window.DataContext>
+    <Window.InputBindings>
+        <KeyBinding Key="Escape" Command="{StaticResource CloseCommand}"></KeyBinding>
+    </Window.InputBindings>
     <Grid Background="Black">
-        <Image Margin="220,84,220,148" Source="/Images/test.png" Stretch="Fill"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200*" />
+            <ColumnDefinition Width="280*" />
+            <ColumnDefinition Width="200*" />
+        </Grid.ColumnDefinitions>
 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="200*" />
+            <RowDefinition Height="500*" />
+            <RowDefinition Height="200*" />
+            <RowDefinition Height="200*" />
+        </Grid.RowDefinitions>
+        <Image Grid.Column ="1" Grid.Row="1" Source="/Images/test.png" Stretch="Fill"/>
+        <TextBlock Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" Text="{Binding Text}"></TextBlock>
+        <TextBox Grid.Row="2" Grid.Column="1" Background="Black" FontSize="24"
+                 Foreground="AliceBlue" Text="{Binding Name}"></TextBox>
+        <Button Grid.Row="3" Grid.Column="1" Background="Bisque" 
+                Content="Add Record" Command="{Binding UpdateRecordDbCommand}"></Button>
     </Grid>
 </Window>

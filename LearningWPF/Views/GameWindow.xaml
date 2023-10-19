@@ -36,7 +36,8 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <TextBlock Grid.Row="1" Text="{Binding PlayerStats}" Background="Green" FontSize="38" TextAlignment="Center"/>
+        <TextBlock Grid.Row="1" Text="{Binding PlayerStats}" 
+                   Background="Green" FontSize="28" TextAlignment="Center"/>
     </Grid>
 
 </Window>

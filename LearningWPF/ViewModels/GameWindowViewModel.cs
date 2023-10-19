@@ -8,6 +8,7 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using LearningWPF.Infrastructure;
 using Point = LearningWPF.Models.Point;
+using LearningWPF.Views;
 
 namespace LearningWPF.ViewModels
 {
@@ -44,7 +45,7 @@ namespace LearningWPF.ViewModels
             ImageList = new ObservableCollection<BitmapImage>();
             FillImageList();
             _round = new GameRound(map, numberOfEnemies, OnPositionChanged);
-            _round.GameWin += () => MessageBox.Show("Victory!");
+            _round.GameWin += () => SwitchToWinWindow(mapVariant, _round.UserScore);
             _round.GameLoose += () =>
             {
                 MessageBox.Show("Loose!!!");
@@ -100,6 +101,19 @@ namespace LearningWPF.ViewModels
 
             index = current.X * _map.GetLength(1) + current.Y;
             ImageList[index] = GetBitmap(gameObject);
+        }
+
+        private static void SwitchToWinWindow(int mapVariant, int score)
+        {
+            var viewModel = new WinWindowViewModel(mapVariant, score);
+            var secondWindow = new WinWindow()
+            {
+                DataContext = viewModel
+            };
+            foreach (Window window in Application.Current.Windows)
+                if (window.DataContext != viewModel)
+                    window.Close();
+            secondWindow.Show();
         }
     }
 }

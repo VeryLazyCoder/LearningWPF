@@ -48,10 +48,12 @@ namespace LearningWPF.Models
             set => Map[point.X, point.Y] = value;
         }
 
-        public void AddAdditionalTreasure()
+        public Point AddAdditionalTreasure()
         {
-            DrawSymbolOnEmptyCell('X');
+            var point = GetRandomEmptyPosition();
+            this[point] = 'X';
             TreasuresOnTheMap++;
+            return point;
         }
 
         public bool IsNotWall(Point position) => this[position] != '|' && this[position] != '-';

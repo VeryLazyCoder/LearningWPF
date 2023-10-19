@@ -19,18 +19,22 @@ namespace LearningWPF.Models
                 "здоровье уменьшилось")
         };
         private readonly Random _random;
-        private readonly List<Action<GameRound?>> _actions = new()
+        private readonly List<Action<GameRound>> _actions = new()
         {
             game => game.Player.MovesAvailable -= 5,
             game => game.Player.MovesAvailable += 5,
-            game => game.Map.AddAdditionalTreasure(),
+            game =>
+            {
+                var point = game.Map.AddAdditionalTreasure();
+                game.PositionChanged(point, point, 'X');
+            },
             game => game.AddAdditionalEnemy(),
             game => game.Player.ChangeHealthFor(25),
             game => game.Player.ChangeHealthFor(-25),
         };
-        private readonly GameRound? _round;
+        private readonly GameRound _round;
 
-        public RandomEventsHandler(GameRound? round)
+        public RandomEventsHandler(GameRound round)
         {
             _random = new Random();
             _round = round;

@@ -7,6 +7,7 @@ namespace LearningWPF.Models
     {
         public Player Player { get; }
         public GameMap Map { get; }
+        public Action<Point, Point, char> PositionChanged { get; }
         public bool? IsWon { get; private set; }
         public int UserScore { get; private set; }
 
@@ -14,7 +15,6 @@ namespace LearningWPF.Models
         public event Action GameWin;
         public event Action<string> StatsChanged;
 
-        private readonly Action<Point, Point, char> _positionChanged;
         private readonly int _startMoves;
         private readonly int _initialEnemiesCount;
 
@@ -49,7 +49,7 @@ namespace LearningWPF.Models
 
         public GameRound(GameMap map, int enemyCount, Action<Point, Point, char> positionChanged)
         {
-            _positionChanged = positionChanged;
+            PositionChanged = positionChanged;
             Map = map;
             _startMoves = Map.MovesAvailable;
             _initialEnemiesCount = enemyCount;
@@ -70,7 +70,7 @@ namespace LearningWPF.Models
         }
 
         public void AddAdditionalEnemy() =>
-            _enemies.Add(new CommonEnemy(Map.GetRandomEmptyPosition(), Map, _positionChanged));
+            _enemies.Add(new CommonEnemy(Map.GetRandomEmptyPosition(), Map, PositionChanged));
 
         private void SetRoundResultIfGameIsOver()
         {
@@ -136,8 +136,8 @@ namespace LearningWPF.Models
             return enemies;
         }
         private IEnemy GetEnemy(Point point) =>
-            new Random().Next(3) == 0 ? new SmartEnemy(point, Map, _positionChanged) : 
-                new CommonEnemy(point, Map, _positionChanged);
+            new Random().Next(3) == 0 ? new SmartEnemy(point, Map, PositionChanged) : 
+                new CommonEnemy(point, Map, PositionChanged);
 
     }
 }
