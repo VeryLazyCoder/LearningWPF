@@ -27,10 +27,13 @@
             <RowDefinition Height="200*" />
         </Grid.RowDefinitions>
         <Image Grid.Column ="1" Grid.Row="1" Source="/Images/test.png" Stretch="Fill"/>
-        <TextBlock Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" Text="{Binding Text}"></TextBlock>
-        <TextBox Grid.Row="2" Grid.Column="1" Background="Black" FontSize="24"
-                 Foreground="AliceBlue" Text="{Binding Name}"></TextBox>
-        <Button Grid.Row="3" Grid.Column="1" Background="Bisque" 
-                Content="Add Record" Command="{Binding UpdateRecordDbCommand}"></Button>
+        <TextBlock Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" Text="{Binding Text}"
+                   Foreground="AntiqueWhite" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22"/>
+        <TextBox Grid.Row="2" Grid.Column="1" Background="Black" FontSize="28"
+                 Foreground="AliceBlue" Text="{Binding Name}" TextAlignment="Center"/>
+        <Button Grid.Row="3" Grid.Column="2" Background="Bisque" 
+                Content="{Binding ButtonContext}" Command="{Binding UpdateRecordDbCommand}" FontSize="36"></Button>
+        <Button Grid.Row="3" Grid.Column="0" Background="Bisque" 
+                Content="Пропустить" Command="{StaticResource SwitchToMenuCommand}" FontSize="36"></Button>
     </Grid>
 </Window>

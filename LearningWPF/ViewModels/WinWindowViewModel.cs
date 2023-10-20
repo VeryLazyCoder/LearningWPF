@@ -21,25 +21,30 @@ namespace LearningWPF.ViewModels
             }
         }
 
+        public string ButtonContext => "Записать рекорд";
+
         private static int _mapVariant;
         private static string _staticName;
         private static int _score;
         private string _name;
-        public string Text => "Это победа, если хочешь увековечить себя в базе данных, введи своё имя и нажми кнопку";
+
+        public string Text => $"Ты победил за {_score} ходов, " +
+                              $"если хочешь увековечить себя в базе данных, введи своё имя и нажми кнопку";
+
         public WinWindowViewModel() { }
 
         public WinWindowViewModel(int mapVariant, int score)
         {
             _mapVariant = mapVariant;
             _score = score;
-            UpdateRecordDbCommand = new RelayCommand(OnButtonClick);
+            UpdateRecordDbCommand = new RelayCommand(AddRecordToDb);
         }
 
-        private static void OnButtonClick()
+        private static void AddRecordToDb()
         {
-            var userdata = new UserData(_staticName, _score, DateTime.Now);
-            RecordsRepository.UpdateBase(userdata, _mapVariant);
-            new SwitchToMenuWindowCommand().Execute(userdata);
+            var userData = new UserData(_staticName, _score, DateTime.Now);
+            RecordsRepository.UpdateBase(userData, _mapVariant);
+            new SwitchToMenuWindowCommand().Execute(userData);
         }
     }
 }
