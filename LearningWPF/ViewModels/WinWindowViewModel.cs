@@ -14,22 +14,16 @@ namespace LearningWPF.ViewModels
         public string Name
         {
             get => _name;
-            set
-            {
-                Set(ref _name, value);
-                _staticName = value;
-            }
+            set => Set(ref _name, value);
         }
 
         public string ButtonContext => "Записать рекорд";
-
-        private static int _mapVariant;
-        private static string _staticName;
-        private static int _score;
-        private string _name;
-
         public string Text => $"Ты победил за {_score} ходов, " +
                               $"если хочешь увековечить себя в базе данных, введи своё имя и нажми кнопку";
+
+        private readonly int _mapVariant;
+        private readonly int _score;
+        private string _name;
 
         public WinWindowViewModel() { }
 
@@ -40,9 +34,9 @@ namespace LearningWPF.ViewModels
             UpdateRecordDbCommand = new RelayCommand(AddRecordToDb);
         }
 
-        private static void AddRecordToDb()
+        private void AddRecordToDb()
         {
-            var userData = new UserData(_staticName, _score, DateTime.Now);
+            var userData = new UserData(_name, _score, DateTime.Now);
             RecordsRepository.UpdateBase(userData, _mapVariant);
             new SwitchToMenuWindowCommand().Execute(userData);
         }

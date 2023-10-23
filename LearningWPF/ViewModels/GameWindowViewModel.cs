@@ -1,76 +1,82 @@
-﻿using GalaSoft.MvvmLight.Command;
-using LearningWPF.Models;
-using LearningWPF.ViewModels.ViewModelBase;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using GalaSoft.MvvmLight.Command;
 using LearningWPF.Infrastructure;
-using Point = LearningWPF.Models.Point;
+using LearningWPF.Models;
+using LearningWPF.ViewModels.ViewModelBase;
 using LearningWPF.Views;
+using Point = LearningWPF.Models.Point;
 
-namespace LearningWPF.ViewModels
+namespace LearningWPF.ViewModels;
+
+public class GameWindowViewModel : ViewModel
 {
-    public class GameWindowViewModel : ViewModel
+    public ObservableCollection<BitmapImage> ImageList { get; } = new();
+
+    private readonly char[,] _map;
+    private readonly GameRound _round;
+    private readonly RandomEventsHandler _eventsHandler;
+
+    private int _columnsCount;
+    private string _playerStats;
+
+    public int ColumnsCount
     {
-        public static ObservableCollection<BitmapImage> ImageList { get; private set; } = new();
+        get => _columnsCount;
+        set => Set(ref _columnsCount, value);
+    }
 
-        private static char[,] _map;
-        private static GameRound _round;
-        private static RandomEventsHandler _eventsHandler;
+    public string PlayerStats
+    {
+        get => _playerStats;
+        set => Set(ref _playerStats, value);
+    }
 
-        private int _columnsCount;
-        private string _playerStats;
+    public ICommand KeyCommand { get; }
 
-        public int ColumnsCount
+    public GameWindowViewModel(int mapVariant, int numberOfEnemies)
+    {
+        KeyCommand = new RelayCommand<string>(OnKeyDown);
+        var map = GameMap.CreateMap(mapVariant);
+        _map = map.Map;
+        ColumnsCount = _map.GetLength(1);
+        ImageList = new ObservableCollection<BitmapImage>();
+        FillImageList();
+        _round = new GameRound(map, numberOfEnemies, OnPositionChanged);
+        _round.GameWin += () => SwitchToWinWindow(mapVariant, _round.UserScore);
+        _round.GameLoose += () =>
         {
-            get => _columnsCount;
-            set => Set(ref _columnsCount, value);
-        }
+            new ShowMessageBoxCommand().Execute("Вы проиграли, какая жалость");
+            new SwitchToMenuWindowCommand().Execute(this);
+        };
+        _round.StatsChanged += text => PlayerStats = text;
+        _eventsHandler = new RandomEventsHandler(_round);
+        PlayerStats = _round.Player.ToString();
+    }
 
-        public string PlayerStats
-        {
-            get => _playerStats;
-            set => Set(ref _playerStats, value);
-        }
+    public GameWindowViewModel()
+    {
+    }
 
-        public ICommand KeyCommand { get; private set; } = new RelayCommand<string>(OnKeyDown);
+    private void OnKeyDown(string key)
+    {
+        _eventsHandler.TryRaiseEvent();
+        _round.GetNextTurn(GetKey(key));
+    }
 
-        public GameWindowViewModel(int mapVariant, int numberOfEnemies)
-        {
-            var map = GameMap.CreateMap(mapVariant);
-            _map = map.Map;
-            ColumnsCount = _map.GetLength(1);
-            ImageList = new ObservableCollection<BitmapImage>();
-            FillImageList();
-            _round = new GameRound(map, numberOfEnemies, OnPositionChanged);
-            _round.GameWin += () => SwitchToWinWindow(mapVariant, _round.UserScore);
-            _round.GameLoose += () =>
-            {
-                MessageBox.Show("Loose!!!");
-                new SwitchToMenuWindowCommand().Execute(this);
-            };
-            _round.StatsChanged += text => PlayerStats = text;
-            _eventsHandler = new RandomEventsHandler(_round);
-        }
+    private void FillImageList()
+    {
+        for (var row = 0; row < _map.GetLength(0); row++)
+        for (var col = 0; col < _map.GetLength(1); col++)
+            ImageList.Add(GetBitmap(_map[row, col]));
+    }
 
-        public GameWindowViewModel(){}
-
-        private static void OnKeyDown(string key)
-        {
-            _eventsHandler.TryRaiseEvent();
-            _round.GetNextTurn(GetKey(key));
-        }
-
-        private static void FillImageList()
-        {
-            for (var row = 0; row < _map.GetLength(0); row++)
-                for (var col = 0; col < _map.GetLength(1); col++)
-                    ImageList.Add(GetBitmap(_map[row, col]));
-        }
-
-        private static BitmapImage GetBitmap(char symbol) => symbol switch
+    private static BitmapImage GetBitmap(char symbol)
+    {
+        return symbol switch
         {
             'P' => new BitmapImage(new Uri("/Images/Peasant.bmp", UriKind.Relative)),
             '@' => new BitmapImage(new Uri("/Images/dog.bmp", UriKind.Relative)),
@@ -82,10 +88,13 @@ namespace LearningWPF.ViewModels
             'D' => new BitmapImage(new Uri("/Images/damage.bmp", UriKind.Relative)),
             'H' => new BitmapImage(new Uri("/Images/health.bmp", UriKind.Relative)),
             'W' or '|' or '-' => new BitmapImage(new Uri("/Images/wall.bmp", UriKind.Relative)),
-            _ => new BitmapImage(new Uri("/Images/Grass.bmp", UriKind.Relative)),
+            _ => new BitmapImage(new Uri("/Images/Grass.bmp", UriKind.Relative))
         };
+    }
 
-        private static ConsoleKey GetKey(string key) => key switch
+    private ConsoleKey GetKey(string key)
+    {
+        return key switch
         {
             "W" => ConsoleKey.W,
             "A" => ConsoleKey.A,
@@ -93,28 +102,27 @@ namespace LearningWPF.ViewModels
             "D" => ConsoleKey.D,
             _ => ConsoleKey.Spacebar
         };
+    }
 
-        private static void OnPositionChanged(Point previous, Point current, char gameObject)
+    private void OnPositionChanged(Point previous, Point current, char gameObject)
+    {
+        var index = previous.X * _map.GetLength(1) + previous.Y;
+        ImageList[index] = GetBitmap(_map[previous.X, previous.Y]);
+
+        index = current.X * _map.GetLength(1) + current.Y;
+        ImageList[index] = GetBitmap(gameObject);
+    }
+
+    private void SwitchToWinWindow(int mapVariant, int score)
+    {
+        var viewModel = new WinWindowViewModel(mapVariant, score);
+        var secondWindow = new WinWindow
         {
-            var index = previous.X * _map.GetLength(1) + previous.Y;
-            ImageList[index] = GetBitmap(_map[previous.X, previous.Y]);
-
-            index = current.X * _map.GetLength(1) + current.Y;
-            ImageList[index] = GetBitmap(gameObject);
-        }
-
-        private static void SwitchToWinWindow(int mapVariant, int score)
-        {
-            var viewModel = new WinWindowViewModel(mapVariant, score);
-            var secondWindow = new WinWindow()
-            {
-                DataContext = viewModel
-            };
-            foreach (Window window in Application.Current.Windows)
-                if (window.DataContext != viewModel)
-                    window.Close();
-            secondWindow.Show();
-        }
+            DataContext = viewModel
+        };
+        foreach (Window window in Application.Current.Windows)
+            if (window.DataContext != viewModel)
+                window.Close();
+        secondWindow.Show();
     }
 }
-

@@ -27,7 +27,7 @@
         <ItemsControl ItemsSource="{Binding ImageList}" Grid.Row="0">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <UniformGrid Columns="{Binding ColumnsCount}" Margin="0" />
+                    <UniformGrid Columns="{Binding ColumnsCount}" />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>

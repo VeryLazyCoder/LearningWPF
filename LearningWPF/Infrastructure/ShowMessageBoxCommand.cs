@@ -8,9 +8,9 @@ namespace LearningWPF.Infrastructure
     {
         public bool CanExecute(object? parameter) => true;
 
-        public void Execute(object? parameter)
+        public void Execute(object? stringToShow)
         {
-            if(parameter is string text)
+            if(stringToShow is string text)
                 MessageBox.Show(text);
         }
 
