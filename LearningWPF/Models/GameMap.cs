@@ -6,7 +6,7 @@ namespace LearningWPF.Models
     public class GameMap
     {
         public int MovesAvailable { get; }
-        public int TreasuresOnTheMap { get; private set; }
+        public int TreasuresOnTheMap { get; private set; }  
 
         public readonly char[,] Map;
 

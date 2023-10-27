@@ -33,7 +33,7 @@ namespace LearningWPF.Models
                     2 + _random.Next(-1, 2), 75f + _random.Next(-7, 8)),
                 new(10f, 9.25f, 100f),
                 new(500f, 2, 25f),
-                new( 1000f, 2, 3.5f)
+                new( 1000f, 7, 3.5f)
             };
         }
 
@@ -116,10 +116,10 @@ namespace LearningWPF.Models
         private void AddSecretEnemies()
         {
             var random = new Random();
-            _enemyFighters.Add(new Fighter( int.MaxValue / 500, 0, int.MaxValue / 500));
-            _enemyFighters.Add(new Fighter(random.Next(0, int.MaxValue / 500),
+            _enemyFighters.Add(new Fighter( 4294967F, 0, 4294967F));
+            _enemyFighters.Add(new Fighter(random.Next(0, 4294967),
                 random.Next(0, 11),
-                random.Next(0, int.MaxValue / 500)));
+                random.Next(0, 4294967)));
         }
     }
 }

@@ -54,7 +54,7 @@ public class GameWindowViewModel : ViewModel
         };
         _round.StatsChanged += text => PlayerStats = text;
         _eventsHandler = new RandomEventsHandler(_round);
-        PlayerStats = _round.Player.ToString();
+        _playerStats = _round.Player.ToString();
     }
 
     public GameWindowViewModel()
@@ -74,35 +74,29 @@ public class GameWindowViewModel : ViewModel
             ImageList.Add(GetBitmap(_map[row, col]));
     }
 
-    private static BitmapImage GetBitmap(char symbol)
+    private static BitmapImage GetBitmap(char symbol) => symbol switch
     {
-        return symbol switch
-        {
-            'P' => new BitmapImage(new Uri("/Images/Peasant.bmp", UriKind.Relative)),
-            '@' => new BitmapImage(new Uri("/Images/dog.bmp", UriKind.Relative)),
-            'X' => new BitmapImage(new Uri("/Images/chest.bmp", UriKind.Relative)),
-            'O' => new BitmapImage(new Uri("/Images/opened.bmp", UriKind.Relative)),
-            'C' => new BitmapImage(new Uri("/Images/enemy.bmp", UriKind.Relative)),
-            'S' => new BitmapImage(new Uri("/Images/smart.bmp", UriKind.Relative)),
-            'A' => new BitmapImage(new Uri("/Images/armor.bmp", UriKind.Relative)),
-            'D' => new BitmapImage(new Uri("/Images/damage.bmp", UriKind.Relative)),
-            'H' => new BitmapImage(new Uri("/Images/health.bmp", UriKind.Relative)),
-            'W' or '|' or '-' => new BitmapImage(new Uri("/Images/wall.bmp", UriKind.Relative)),
-            _ => new BitmapImage(new Uri("/Images/Grass.bmp", UriKind.Relative))
-        };
-    }
+        'P' => new BitmapImage(new Uri("/Images/Peasant.bmp", UriKind.Relative)),
+        '@' => new BitmapImage(new Uri("/Images/dog.bmp", UriKind.Relative)),
+        'X' => new BitmapImage(new Uri("/Images/chest.bmp", UriKind.Relative)),
+        'O' => new BitmapImage(new Uri("/Images/opened.bmp", UriKind.Relative)),
+        'C' => new BitmapImage(new Uri("/Images/enemy.bmp", UriKind.Relative)),
+        'S' => new BitmapImage(new Uri("/Images/smart.bmp", UriKind.Relative)),
+        'A' => new BitmapImage(new Uri("/Images/armor.bmp", UriKind.Relative)),
+        'D' => new BitmapImage(new Uri("/Images/damage.bmp", UriKind.Relative)),
+        'H' => new BitmapImage(new Uri("/Images/health.bmp", UriKind.Relative)),
+        'W' or '|' or '-' => new BitmapImage(new Uri("/Images/wall.bmp", UriKind.Relative)),
+        _ => new BitmapImage(new Uri("/Images/Grass.bmp", UriKind.Relative))
+    };
 
-    private ConsoleKey GetKey(string key)
+    private ConsoleKey GetKey(string key) => key switch
     {
-        return key switch
-        {
-            "W" => ConsoleKey.W,
-            "A" => ConsoleKey.A,
-            "S" => ConsoleKey.S,
-            "D" => ConsoleKey.D,
-            _ => ConsoleKey.Spacebar
-        };
-    }
+        "W" => ConsoleKey.W,
+        "A" => ConsoleKey.A,
+        "S" => ConsoleKey.S,
+        "D" => ConsoleKey.D,
+        _ => ConsoleKey.Spacebar
+    };
 
     private void OnPositionChanged(Point previous, Point current, char gameObject)
     {
