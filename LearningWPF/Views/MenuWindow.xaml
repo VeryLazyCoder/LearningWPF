@@ -24,12 +24,14 @@
                     FontSize="24"/>
         </Viewbox>
         <Viewbox Stretch="Uniform">
-            <Button Content="Играть" Background="Aquamarine" Margin="242,52,242,237" Height="167" Width="424"
-                    Command="{Binding SetConfigurationWindowCommand}" FontSize="24" Padding="1,1,4,1"/>
+            <Button Content="Играть" Background="Aquamarine" Margin="242,120,242,194" Command="{Binding SetConfigurationWindowCommand}" FontSize="24" Height="98" Width="243"/>
         </Viewbox>
         <Viewbox Stretch="Uniform">
             <Button Content="Узнать как играть" Background="ForestGreen" Margin="19,276,564,59"
                 FontSize="24" Height="98" Width="206" Command="{Binding ShowMessageCommand}"/>
+        </Viewbox>
+        <Viewbox Stretch="Uniform">
+            <TextBlock Text="{Binding GreetingText}" Margin="194,19,194,298" FontSize="28" TextAlignment="Center"></TextBlock>
         </Viewbox>
     </Grid>
 </Window>

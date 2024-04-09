@@ -8,7 +8,6 @@ namespace LearningWPF.Models
     {
         public Action<Point, Point, char> PositionChanged;
 
-
         private readonly Dictionary<Point, Point> _track;
         private readonly GameMap _map;
         private readonly Point[] _offsetPoints;
@@ -58,7 +57,10 @@ namespace LearningWPF.Models
             path.Reverse();
             return path.Count > 1 ? path[1] : Position;
         }
-
+        /// <summary>
+        /// Fill track dictionary using BFS algorithm 
+        /// </summary>
+        /// <param name="playerPosition"></param>
         private void FormPathToPlayer(Point playerPosition)
         {
             _track.Clear();

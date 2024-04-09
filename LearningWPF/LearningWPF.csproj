@@ -45,8 +45,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Images\Grass.bmp" />
-    <Resource Include="Images\Peasant.bmp" />
+    <Resource Include="Images\grass.bmp" />
+    <Resource Include="Images\peasant.bmp" />
     <Resource Include="Images\test.png" />
     <Resource Include="Images\wall.bmp" />
     <Resource Include="Images\фон1.bmp" />

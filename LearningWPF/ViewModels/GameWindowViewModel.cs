@@ -76,7 +76,7 @@ public class GameWindowViewModel : ViewModel
 
     private static BitmapImage GetBitmap(char symbol) => symbol switch
     {
-        'P' => new BitmapImage(new Uri("/Images/Peasant.bmp", UriKind.Relative)),
+        'P' => new BitmapImage(new Uri("/Images/peasant.bmp", UriKind.Relative)),
         '@' => new BitmapImage(new Uri("/Images/dog.bmp", UriKind.Relative)),
         'X' => new BitmapImage(new Uri("/Images/chest.bmp", UriKind.Relative)),
         'O' => new BitmapImage(new Uri("/Images/opened.bmp", UriKind.Relative)),
@@ -86,7 +86,7 @@ public class GameWindowViewModel : ViewModel
         'D' => new BitmapImage(new Uri("/Images/damage.bmp", UriKind.Relative)),
         'H' => new BitmapImage(new Uri("/Images/health.bmp", UriKind.Relative)),
         'W' or '|' or '-' => new BitmapImage(new Uri("/Images/wall.bmp", UriKind.Relative)),
-        _ => new BitmapImage(new Uri("/Images/Grass.bmp", UriKind.Relative))
+        _ => new BitmapImage(new Uri("/Images/grass.bmp", UriKind.Relative))
     };
 
     private ConsoleKey GetKey(string key) => key switch

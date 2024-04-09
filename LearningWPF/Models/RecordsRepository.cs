@@ -10,7 +10,7 @@ namespace LearningWPF.Models
         private static int _maxID;
         private static List<UserData> _userRecords;
         private const string CONNECTION_STRING = 
-            @"Server=ByashaLaptop\SQLEXPRESS, 49172;Database=Reckords;User Id=TEST2;Password=qwerty12345;";
+            @"Server=ByashaLaptop\SQLEXPRESS, 49172;Database=Reckords;User Id=TEST2;Password=12345;";
 
         static RecordsRepository()
         {
@@ -40,6 +40,7 @@ namespace LearningWPF.Models
             }
             reader.Close();
             return _userRecords;
+
         }
 
         public static void UpdateBase(UserData newRow, int mapVariant)

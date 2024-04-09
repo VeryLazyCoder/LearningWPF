@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:LearningWPF"
              xmlns:commands="clr-namespace:LearningWPF.Infrastructure"
-             StartupUri="Views/MenuWindow.xaml">
+             StartupUri="Views/RegisterWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <commands:CloseApplicationCommand x:Key="CloseCommand"/>
