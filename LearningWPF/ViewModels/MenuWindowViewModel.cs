@@ -26,7 +26,7 @@ namespace LearningWPF.ViewModels
 
         public MenuWindowViewModel()
         {
-            GreetingText = $"Добро пожаловать {CurrentUser.Account.NickName}!";
+            GreetingText = $"Добро пожаловать, {CurrentUser.Account.NickName}!";
         }
 
         public ICommand SetRecordsWindowCommand { get; set; } = new RelayCommand(SwitchRecordsWindow);

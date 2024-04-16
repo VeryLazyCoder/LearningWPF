@@ -22,6 +22,7 @@ public class GameWindowViewModel : ViewModel
 
     private int _columnsCount;
     private string _playerStats;
+    private readonly int _startMoves;
 
     public int ColumnsCount
     {
@@ -55,6 +56,7 @@ public class GameWindowViewModel : ViewModel
         _round.StatsChanged += text => PlayerStats = text;
         _eventsHandler = new RandomEventsHandler(_round);
         _playerStats = _round.Player.ToString();
+        _startMoves = map.MovesAvailable;
     }
 
     public GameWindowViewModel()
@@ -109,7 +111,7 @@ public class GameWindowViewModel : ViewModel
 
     private void SwitchToWinWindow(int mapVariant, int score)
     {
-        var viewModel = new WinWindowViewModel(mapVariant, score);
+        var viewModel = new WinWindowViewModel(mapVariant, score, _startMoves);
         var secondWindow = new WinWindow
         {
             DataContext = viewModel

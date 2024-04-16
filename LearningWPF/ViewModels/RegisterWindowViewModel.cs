@@ -60,22 +60,24 @@ namespace LearningWPF.ViewModels
             set => Set(ref _isStartMode, value);
         }
 
-        public ICommand SignIn { get; }
-        public ICommand SignUp { get; }
-        public ICommand ToAuthorizationGrid { get; }
-        public ICommand ToRegistrationGrid { get; }
-        public ICommand ToStartGrid { get; }
+        public ICommand SignInCommand { get; }
+        public ICommand SignUpCommand { get; }
+        public ICommand ToAuthorizationGridCommand { get; }
+        public ICommand ToRegistrationGridCommand { get; }
+        public ICommand ToStartGridCommand { get; }
         public ICommand MoveFocusCommand { get; }
 
         public RegisterWindowViewModel()
         {
-            ToRegistrationGrid = new RelayCommand(() =>
+            ToRegistrationGridCommand = new RelayCommand(() =>
             {
                 IsStartMode = false;
                 IsRegisterMode = true;
+                var nameBox = Application.Current.MainWindow.FindName("NameBox") as TextBox;
+                nameBox.Focus();
             });
 
-            ToAuthorizationGrid = new RelayCommand(() =>
+            ToAuthorizationGridCommand = new RelayCommand(() =>
             {
                 IsStartMode = false;
                 IsAuthorizationMode = true;
@@ -83,14 +85,14 @@ namespace LearningWPF.ViewModels
                 loginBox.Focus();
             });
 
-            ToStartGrid = new RelayCommand(() =>
+            ToStartGridCommand = new RelayCommand(() =>
             {
                 IsAuthorizationMode = false;
                 IsRegisterMode = false;
                 IsStartMode = true;
             });
 
-            SignIn = new RelayCommand(async () =>
+            SignInCommand = new RelayCommand(async () =>
             {
 
                 try
@@ -104,7 +106,7 @@ namespace LearningWPF.ViewModels
                 }
             });
 
-            SignUp = new RelayCommand(() =>
+            SignUpCommand = new RelayCommand(() =>
             {
                 try
                 {
@@ -133,8 +135,23 @@ namespace LearningWPF.ViewModels
                         break;
                     }
                     case "PasswordBox":
-                        SignIn.Execute(null);
+                        SignInCommand.Execute(null);
                         break;
+                    case "RegistrationPasswordBox":
+                        SignUpCommand.Execute(null);
+                        break;
+                    case "NameBox":
+                    {
+                        if (window.FindName("RegistrationLoginBox") is TextBox nameTextBox)
+                            nameTextBox.Focus();
+                        break;
+                    }
+                    case "RegistrationLoginBox":
+                    {
+                        if (window.FindName("RegistrationPasswordBox") is TextBox passwordTextBox)
+                            passwordTextBox.Focus();
+                        break;
+                    }
                 }
             });
         }

@@ -12,7 +12,6 @@
         <vm:RegisterWindowViewModel></vm:RegisterWindowViewModel>
     </Window.DataContext>
     <Window.Resources>
-        <conv:KeyToKeyEventArgsInfoConverter x:Key="KeyConverter"></conv:KeyToKeyEventArgsInfoConverter>
         <conv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"></conv:BoolToVisibilityConverter>
         <conv:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter"></conv:InverseBoolToVisibilityConverter>
     </Window.Resources>
@@ -22,10 +21,10 @@
     <Grid>
         <Grid Visibility="{Binding IsStartMode, Converter={StaticResource BoolToVisibilityConverter}}">
             <Viewbox Stretch="Uniform">
-                <Button Content="Зарегистрироваться" Command="{Binding ToRegistrationGrid}" FontSize="35" Background="Aquamarine" Margin="196,58,234,235" Height="142"></Button>
+                <Button Content="Зарегистрироваться" Command="{Binding ToRegistrationGridCommand}" FontSize="35" Background="Aquamarine" Margin="196,58,234,235" Height="142"></Button>
             </Viewbox>
             <Viewbox Stretch="Uniform">
-                <Button Content="Авторизоваться" Command="{Binding ToAuthorizationGrid}" FontSize="35" Background="Aquamarine" Margin="196,256,234,37" Height="106" Width="299"></Button>
+                <Button Content="Авторизоваться" Command="{Binding ToAuthorizationGridCommand}" FontSize="35" Background="Aquamarine" Margin="196,256,234,37" Height="106" Width="299"></Button>
             </Viewbox>
         </Grid>
         <Grid Visibility= "{Binding IsAuthorizationMode, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -42,10 +41,10 @@
                 <TextBox KeyDown="TextBox_PreviewKeyDown" Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Name="PasswordBox" Margin="286,217,286,173" Width="198" Height="38" FontSize="18" TextAlignment="Center"></TextBox>
             </Viewbox>
             <Viewbox Stretch="Uniform">
-                <Button Content="Войти" Command="{Binding SignIn}" FontSize="28" Background="Aquamarine" Margin="295,320,295,10" Height="108" Width="281"/>
+                <Button Content="Войти" Command="{Binding SignInCommand}" FontSize="28" Background="Aquamarine" Margin="295,320,295,10" Height="108" Width="281"/>
             </Viewbox>
             <Viewbox Stretch="Uniform">
-                <Button Content="Назад" FontSize="28" Command="{Binding ToStartGrid}" Background="Aquamarine" Margin="0,350,619,0" Width="103"></Button>
+                <Button Content="Назад" FontSize="28" Command="{Binding ToStartGridCommand}" Background="Aquamarine" Margin="0,350,619,0" Width="103"></Button>
             </Viewbox>
         </Grid>
 
@@ -61,19 +60,19 @@
             </Viewbox>
             <Viewbox Stretch="Uniform"></Viewbox>
             <Viewbox Stretch="Uniform">
-                <TextBox Text ="{Binding UserLogin}" Margin="302,158,302,238" Height="38" Width="196"  FontSize="18"  TextAlignment="Center"></TextBox>
+                <TextBox Text ="{Binding UserLogin}" KeyDown="TextBox_PreviewKeyDown" Name="RegistrationLoginBox" Margin="302,158,302,238" Height="38" Width="196"  FontSize="18"  TextAlignment="Center"></TextBox>
             </Viewbox>
             <Viewbox Stretch="Uniform">
-                <TextBox Text ="{Binding UserName}" Height="38" Width="196"  FontSize="18" TextAlignment="Center" Margin="302,45,302,351"/>
+                <TextBox Text ="{Binding UserName}" KeyDown="TextBox_PreviewKeyDown" Name="NameBox" Height="38" Width="196"  FontSize="18" TextAlignment="Center" Margin="302,45,302,351"/>
             </Viewbox>
             <Viewbox Stretch="Uniform">
-                <TextBox Text="{Binding Password}" FontSize="18" TextAlignment="Center"   Width="196" Height="38"  Margin="302,268,302,128"/>
+                <TextBox Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" KeyDown="TextBox_PreviewKeyDown" Name="RegistrationPasswordBox" FontSize="18" TextAlignment="Center"   Width="196" Height="38"  Margin="302,268,302,128"/>
             </Viewbox>
             <Viewbox Stretch="Uniform">
-                <Button Content="Зарегистрироваться" Command="{Binding SignUp}" FontSize="28" Background="Aquamarine" Margin="261,339,261,10"/>
+                <Button Content="Зарегистрироваться" Command="{Binding SignUpCommand}" FontSize="28" Background="Aquamarine" Margin="261,339,261,10"/>
             </Viewbox>
             <Viewbox Stretch="Uniform">
-                <Button Content="Назад" Command="{Binding ToStartGrid}" FontSize="28" Background="Aquamarine" Margin="0,350,619,0" Width="103"></Button>
+                <Button Content="Назад" Command="{Binding ToStartGridCommand}" FontSize="28" Background="Aquamarine" Margin="0,350,619,0" Width="103"></Button>
             </Viewbox>
         </Grid>
     </Grid>

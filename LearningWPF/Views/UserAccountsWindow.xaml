@@ -5,11 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:LearningWPF.ViewModels"
         xmlns:conv="clr-namespace:LearningWPF.Infrastructure.Converters"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:infrastructure="clr-namespace:LearningWPF.Infrastructure"
         mc:Ignorable="d"
         Title="UserAccountsWindow" Height="509" Width="928">
     <Window.DataContext>
         <vm:UserAccountsWindowViewModel></vm:UserAccountsWindowViewModel>
     </Window.DataContext>
+    <Window.InputBindings>
+        <KeyBinding Key="Escape" Command="{StaticResource CloseCommand}"></KeyBinding>
+        <KeyBinding Key="Enter" Command="{Binding SwitchToMenuScreenCommand}"></KeyBinding>
+    </Window.InputBindings>
     <Window.Resources>
         <conv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"></conv:BoolToVisibilityConverter>
         <conv:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter"></conv:InverseBoolToVisibilityConverter>
@@ -17,10 +23,28 @@
     <Grid Background="AliceBlue" >
         <Grid Visibility="{Binding IsCreatingAccountMode, Converter={StaticResource InverseBoolToVisibilityConverter}}">
             <Viewbox Stretch="Uniform">
-                <ListBox Margin="108,46,108,124" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ItemsSource="{Binding Accounts}" SelectedItem="{Binding ChosenAccount}" Height="178" Width="445" FontSize="18"></ListBox>
+                <ListBox  Margin="108,46,108,124" Name="ListBox"
+                          Visibility="{Binding IsAnyAccountAvailable, 
+                    Converter={StaticResource BoolToVisibilityConverter}}"
+                          HorizontalContentAlignment="Center" VerticalContentAlignment="Center" 
+                          ItemsSource="{Binding Accounts}" 
+                          SelectedItem="{Binding ChosenAccount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                          Height="178" Width="445" FontSize="18">
+                    <i:Interaction.Behaviors>
+                        <infrastructure:LoadingBehavior />
+                    </i:Interaction.Behaviors>
+                </ListBox>
             </Viewbox>
             <Viewbox Stretch="Uniform">
-                <Button Margin="240,328,291,18" FontSize="24" Content="Выбрать этот аккаунт" Command="{Binding ConfirmChosenAccount}" Height="88" Width="269"></Button>
+                <TextBlock Visibility="{Binding IsAnyAccountAvailable, Converter={StaticResource InverseBoolToVisibilityConverter}}" Text="У вас нет доступных аккаунтов, создайте новый!!!" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" FontWeight="Bold"></TextBlock>
+            </Viewbox>
+            <Viewbox Stretch="Uniform">
+                <Button Margin="240,328,291,18" FontSize="24" 
+                        Content="Выбрать этот аккаунт" 
+                        Command="{Binding ConfirmChosenAccountCommand}" 
+                        Height="88" Width="269"
+                        Visibility="{Binding IsAnyAccountAvailable, 
+                    Converter={StaticResource BoolToVisibilityConverter}}"></Button>
             </Viewbox>
             <Viewbox Stretch="Uniform">
                 <Button Content="Создать новый" Command="{Binding CreateNewAccountCommand}" FontSize="20" Margin="709,404,0,10" Height="67" Width="197"></Button>
@@ -30,7 +54,7 @@
 
         <Grid Visibility="{Binding IsCreatingAccountMode, Converter={StaticResource BoolToVisibilityConverter}}">
             <Viewbox Stretch="Uniform">
-                <TextBox Margin="232,216,232,164" Text="{Binding NickName}" FontSize="24" TextAlignment="Center" Width="601" Height="125"></TextBox>
+                <TextBox Margin="232,216,232,164" Text="{Binding NickName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="24" TextAlignment="Center" Width="601" Height="125"></TextBox>
             </Viewbox>
             <Viewbox Stretch="Uniform">
                 <Button FontSize="32" Content="Создать" Command="{Binding ConfirmNewAccountCommand}" Margin="310,403,310,10" Height="78" Width="335"></Button>

@@ -25,18 +25,20 @@
             <RowDefinition Height="200*" />
             <RowDefinition Height="200*" />
         </Grid.RowDefinitions>
-        <RadioButton Content="Карта 1" Command="{Binding ShowRecordsWithoutConverter}" CommandParameter="1"
+        <RadioButton Content="Карта 1" Command="{Binding ShowRecordsCommand}" CommandParameter="1"
              Grid.Row="1" Grid.Column="0" FontSize="72" ClickMode="Hover"/>
-        <RadioButton Content="Карта 2" Command="{Binding ShowRecordsWithoutConverter}" CommandParameter="2" 
+        <RadioButton Content="Карта 2" Command="{Binding ShowRecordsCommand}" CommandParameter="2" 
                      Grid.Row="1" Grid.Column="1" FontSize="72" ClickMode="Hover"/>
-        <RadioButton Content="Карта 3" Command="{Binding ShowRecordsWithoutConverter}" CommandParameter="3" 
+        <RadioButton Content="Карта 3" Command="{Binding ShowRecordsCommand}" CommandParameter="3" 
                      Grid.Row="1" Grid.Column="2" FontSize="72" ClickMode="Hover"/>
         <Button Content="Назад"  Grid.Row="1" Grid.Column="0"
                 Grid.ColumnSpan="3" Height="137" Margin="333,147,333,0" Grid.RowSpan="2" 
                 FontSize="22" Background="#FF5EBB21" BorderBrush="#FF29295A" 
                 Foreground="Black" FontStyle="Italic" FontWeight="Bold" FontStretch="Condensed" 
                 Command="{StaticResource SwitchToMenuCommand}"/>
-        <TextBlock Text="{Binding Title}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" 
+        <TextBlock Text="{Binding Title}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" 
                    FontSize="22" TextAlignment="Center"/>
+        <ComboBox Grid.Row="0" Grid.Column="2" ItemsSource="{Binding Filters}"
+                  SelectedItem="{Binding ChosenFilter}"></ComboBox>
     </Grid>
 </Window>
